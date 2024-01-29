@@ -1,0 +1,3 @@
+Kod pitanja u BOOK daj opciju da se pregleda statistika (kako je do sad odgovarano u procentima tačnosti), možda i neku procenu težine pitanja na osnovu dosadašnje statistike.
+Omogući različite filtracije pitanja, prema težini, oblasti ...
+Razmisli o mogućnosti tagovanja pitanja

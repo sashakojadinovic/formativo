@@ -1,0 +1,14 @@
+[
+    {
+        "id" : 1,
+        "first_name" : "Milenko",
+        "last_name" : "Pantić",
+        "rate" : 3
+    },
+    {
+        "id" : 2,
+        "first_name" : "Milica",
+        "last_name" : "Zdravković",
+        "rate" : 3
+    }
+]

@@ -1,0 +1,17 @@
+
+.MuiTreeItem-content {
+    align-items:flex-start !important;
+}
+.Mui-selected {
+    color: #ffffff; /* Primer boje teksta za selektovani tab */
+  }
+  .MuiTreeItem-root {
+    color: #c5c5c5;
+  }
+  .MuiTreeItem-iconContainer svg {
+    font-size: 1.25rem !important;
+   
+  }
+  /* .MuiSelect-outlined {
+    background-color: #303c5352 !important;
+  } */
