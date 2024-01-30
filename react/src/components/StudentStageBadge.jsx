@@ -14,7 +14,7 @@ const [score, setScore] = useState(0);
     }
     else {
         return (
-            <Button sx={{textTransform:'capitalize'}}  onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}}  color={props.color} size='small' fullWidth variant='contained' >{props.first_name}<br />--{props.last_name}</Button>)
+            <Button sx={{textTransform:'capitalize'}}  onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}}  color={props.color} size='small' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>)
 
     }
 }
