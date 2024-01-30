@@ -6,19 +6,21 @@ import ClassDep from './ClassDep';
 import { AppBar, Toolbar, IconButton, Typography, Box, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { API_BASE_URL } from './apiUrls';
-import {StudentsContext} from '../contexts/StudentsContext';
+import { StageContext } from '../contexts/StageContext';
+//import {StudentsContext} from '../contexts/StudentsContext';
 
 function Stage() {
   const [subjects, setSubjects] = useState([]);
   const [activeSubject, setActiveSubject] = useState("");
-  const [outcome, setOutcome] = useState(null);
-  const [student, setStudent] = useState(null);
+  const [activeOutcome, setActiveOutcome] = useState(null);
+  const [activeStudent, setActiveStudent] = useState(null);
   const [themes, setThemes] = useState(0);
-  const [activeTheme, setActiveTheme] = useState(null);
+  const [activeThemeId, setActiveThemeId] = useState(null);
   const [students, setStudents] = useState([]);
 
   //const subjectsUrl = 'http://192.168.0.101:8000/api/subject';
-  const subjectsUrl = API_BASE_URL+"/api/subject";
+  const subjectsUrl = API_BASE_URL + "/api/subject";
+  //Load Subject list
   useEffect(() => {
     fetch(subjectsUrl, {
       headers: {
@@ -30,9 +32,10 @@ function Stage() {
       .then(res => res.json())
       .then(data => setSubjects(data));
   }, []);
+  //Load Students Class
   useEffect(() => {
-    const getID= 8;
-    const url = API_BASE_URL+"/api/class_dep/" + getID;
+    const getID = 8;
+    const url = API_BASE_URL + "/api/class_dep/" + getID;
     fetch(url)
       .then(res => res.json())
       .then(data => {
@@ -54,13 +57,13 @@ function Stage() {
     })
       .then(res => res.json())
       .then(data => { console.log(data); setActiveSubject(e.target.value); setThemes(data.themes) });
-   
+
   }
 
   const handleThemes = (e) => {
     console.log(e.target.value);
-    setActiveTheme(e.target.value)
-    
+    setActiveThemeId(e.target.value)
+
   }
 
   return (
@@ -90,37 +93,43 @@ function Stage() {
               {subjectsList}
             </Select>
           </FormControl>
-          { activeSubject!==""?<FormControl sx={{ flexGrow: 4, margin: '0 15px' }} size='normal'>
+          {activeSubject !== "" ? <FormControl sx={{ flexGrow: 4, margin: '0 15px' }} size='normal'>
             <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Тема</InputLabel>
             <Select
               variant='outlined'
               sx={{ color: '#ffffff' }}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={activeTheme?activeTheme:""}
+              value={activeThemeId ? activeThemeId : ""}
               label="Теме"
               onChange={handleThemes}
             >
-              {themes.map((theme) => <MenuItem key={theme.id} value={theme?theme.id:""}>{theme.title}</MenuItem>)}
+              {themes.map((theme) => <MenuItem key={theme.id} value={theme ? theme.id : ""}>{theme.title}</MenuItem>)}
             </Select>
-          </FormControl>:""
-          }       
+          </FormControl> : ""
+          }
 
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
       <Grid container >
         <Grid item xs={3} xl={3} sx={{ backgroundColor: '#303c53', height: '100vh' }} >
-          <QuestionsBook themeId={activeTheme} setOutcome={setOutcome}  />
+          <StageContext.Provider value={{ activeThemeId, setActiveOutcome }}>
+            <QuestionsBook />
+          </StageContext.Provider>
+
         </Grid>
         <Grid item xs={6} xl={6} sx={{ backgroundColor: '#F9F9F9' }}>
-          <MainStage activeOutcome={outcome} activeStudent={student} />
+          <StageContext.Provider value={{ activeStudent, activeOutcome }}>
+            <MainStage  />
+          </StageContext.Provider>
+
         </Grid>
         <Grid item xs={3} xl={3} sx={{ backgroundColor: '#303c53', height: '100vh' }}>
-        <StudentsContext.Provider value={{students, setStudents}}>
-          <ClassDep />
-        </StudentsContext.Provider>
-          
+          <StageContext.Provider value={{ students, setStudents, setActiveStudent }}>
+            <ClassDep />
+          </StageContext.Provider>
+
         </Grid>
       </Grid>
 

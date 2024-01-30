@@ -1,18 +1,19 @@
 import StudentStageBadge from './StudentStageBadge.jsx';
-import { useContext } from 'react'
-import { StudentsContext } from '../contexts/StudentsContext.js';
+import { useContext } from 'react';
+import { StageContext } from '../contexts/StageContext.js';
 
 
 function ClassDep(props) {
 
-const {students, setStudents} = useContext(StudentsContext);
+  const { students, setStudents, setActiveStudent } = useContext(StageContext);
 
-let studentsList = [];
-  
+
+  let studentsList = [];
+
   if (students) {
     studentsList = students.map(item => {
       return (
-        <StudentStageBadge first_name={item.first_name} last_name={item.last_name} key={item.id} onClick={()=>console.log(item.first_name)} color='success' />
+        <StudentStageBadge first_name={item.first_name} last_name={item.last_name} key={item.id} onClick={() => setActiveStudent(item)} color='success' />
       )
     })
     return (

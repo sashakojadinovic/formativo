@@ -1,11 +1,10 @@
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
-import ImportExportIcon from '@mui/icons-material/ImportExport';
-import { Container, Box, Card, CardContent, Dialog, DialogTitle, DialogActions, LinearProgress, Typography, Button, DialogContent, Snackbar, Alert, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Container, Box, Card, Dialog, DialogActions, Typography, Button, DialogContent, Snackbar, Alert, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import FPrimaryButton from './ui/buttons/FPrimaryButton'
 import { API_BASE_URL } from './apiUrls';
+import { StageContext } from '../contexts/StageContext';
 
 function MainStage(props) {
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -13,8 +12,8 @@ function MainStage(props) {
     const [snackOpened, setSnackOpened] = useState(false);
     const [choosenQuestion, setChoosenQuestion] = useState("");
 
+    const { activeStudent, activeOutcome } = useContext(StageContext);
     const saveAnswer = () => {
-        //const postUrl = 'http://192.168.0.101:8000/api/answer'
         const postUrl = API_BASE_URL + "/api/answer";
         fetch(postUrl, {
             headers: {
@@ -22,7 +21,7 @@ function MainStage(props) {
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: JSON.stringify({ studentId: props.activeStudent.id, questionId: choosenQuestion, assessmentId: rate })
+            body: JSON.stringify({ studentId: activeStudent.id, questionId: choosenQuestion, assessmentId: rate })
         })
             .then(res => res.json())
             .then(data => {
@@ -37,7 +36,6 @@ function MainStage(props) {
             })
     }
     const handleChange = (e) => setChoosenQuestion(e.target.value);
-
 
     return (
         <Container sx={{ minWidth: 275 }}>
@@ -56,24 +54,22 @@ function MainStage(props) {
                     <Button variant='contained' size='small' color='primary' onClick={() => saveAnswer()}><CloudUploadIcon className='mr-2' fontSize='small' /> Потврди</Button>
                 </DialogActions>
             </Dialog>
-            <Typography sx={{ fontSize: 18, marginTop: 3 }} color="text.secondary" gutterBottom>
-                Исход:
-            </Typography>
-
-            <p>{props.activeOutcome ? props.activeOutcome.description : ""}</p>
+            <Typography sx={{ fontSize: 18, marginTop: 3 }}  gutterBottom>
+                Исход: Ученик/ученица је у стању да {activeOutcome ? activeOutcome.description : ""}
+            </Typography>           
             <Typography className='pt-5' sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 Предложена питања:
             </Typography>
             <Card className='p-5 mt-2 mb-5'>
 
-                {props.activeOutcome && props.activeOutcome.questions.length > 0
+                {activeOutcome && activeOutcome.questions.length > 0
                     ?
                     <RadioGroup
                         value={choosenQuestion}
                         name="radio-buttons-group"
                         onChange={handleChange}
                     >
-                        {props.activeOutcome.questions.map((question, index) =>
+                        {activeOutcome.questions.map((question, index) =>
                             <FormControlLabel key={index} value={question.pivot.question_id} control={<Radio />} label={question.description} />)}
 
                     </RadioGroup>
@@ -92,9 +88,9 @@ function MainStage(props) {
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     Ученик:
                 </Typography>
-                <p>{props.activeStudent ? props.activeStudent.first_name + " " + props.activeStudent.last_name : ""}</p>
+                <p>{activeStudent ? activeStudent.first_name + " " + activeStudent.last_name : ""}</p>
             </Card>
-            
+
 
         </Container>
 
