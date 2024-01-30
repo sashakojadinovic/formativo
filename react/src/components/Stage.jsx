@@ -6,7 +6,7 @@ import ClassDep from './ClassDep';
 import { AppBar, Toolbar, IconButton, Typography, Box, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { API_BASE_URL } from './apiUrls';
-
+import {StudentsContext} from '../contexts/StudentsContext';
 
 function Stage() {
   const [subjects, setSubjects] = useState([]);
@@ -15,6 +15,7 @@ function Stage() {
   const [student, setStudent] = useState(null);
   const [themes, setThemes] = useState(0);
   const [activeTheme, setActiveTheme] = useState(null);
+  const [students, setStudents] = useState([]);
 
   //const subjectsUrl = 'http://192.168.0.101:8000/api/subject';
   const subjectsUrl = API_BASE_URL+"/api/subject";
@@ -28,6 +29,16 @@ function Stage() {
     })
       .then(res => res.json())
       .then(data => setSubjects(data));
+  }, []);
+  useEffect(() => {
+    const getID= 8;
+    const url = API_BASE_URL+"/api/class_dep/" + getID;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setStudents(data.students)
+
+      })
   }, [])
 
   const subjectsList = subjects.map((subject) => <MenuItem key={subject.id} value={subject.id}>{subject.title}</MenuItem>);
@@ -106,7 +117,10 @@ function Stage() {
           <MainStage activeOutcome={outcome} activeStudent={student} />
         </Grid>
         <Grid item xs={3} xl={3} sx={{ backgroundColor: '#303c53', height: '100vh' }}>
-          <ClassDep id={6} setStudent={setStudent} />
+        <StudentsContext.Provider value={{students, setStudents}}>
+          <ClassDep />
+        </StudentsContext.Provider>
+          
         </Grid>
       </Grid>
 

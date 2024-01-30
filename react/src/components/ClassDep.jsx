@@ -1,32 +1,18 @@
-import { Button, Box, AppBar, Toolbar, Typography } from '@mui/material'
 import StudentStageBadge from './StudentStageBadge.jsx';
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { API_BASE_URL } from './apiUrls';
+import { useContext } from 'react'
+import { StudentsContext } from '../contexts/StudentsContext.js';
 
 
 function ClassDep(props) {
-  const { id } = useParams()
-  const getID = id?id:props.id;
 
-  let [students, setStudents] = useState(null)
-  let [classDep, setClassDep] = useState(null)
-  let studentsList = []
-  useEffect(() => {
-    //const url = "http://192.168.0.101:8000/api/class_dep/" + getID
-    const url = API_BASE_URL+"/api/class_dep/" + getID;
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setClassDep(data.class_name)
-        setStudents(data.students)
+const {students, setStudents} = useContext(StudentsContext);
 
-      })
-  }, [])
+let studentsList = [];
+  
   if (students) {
     studentsList = students.map(item => {
       return (
-        <StudentStageBadge first_name={item.first_name} last_name={item.last_name} key={item.id} onClick={()=>{props.setStudent(item)}} color='success' />
+        <StudentStageBadge first_name={item.first_name} last_name={item.last_name} key={item.id} onClick={()=>console.log(item.first_name)} color='success' />
       )
     })
     return (
