@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { Form, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import QuestionsBook from './QuestionsBook';
 import MainStage from './MainStage';
@@ -10,6 +10,8 @@ import { StageContext } from '../contexts/StageContext';
 //import {StudentsContext} from '../contexts/StudentsContext';
 
 function Stage() {
+  const [classDeps, setClassDeps] = useState(null);
+  const [activeClassDep, setActiveClassDep] = useState("");
   const [subjects, setSubjects] = useState([]);
   const [activeSubject, setActiveSubject] = useState("");
   const [activeOutcome, setActiveOutcome] = useState(null);
@@ -32,20 +34,21 @@ function Stage() {
       .then(res => res.json())
       .then(data => setSubjects(data));
   }, []);
-  //Load Students Class
+
+  //Load All Classes
   useEffect(() => {
-    const getID = 8;
-    const url = API_BASE_URL + "/api/class_dep/" + getID;
+    //const url = "http://192.168.0.101:8000/api/class_dep"
+    const url = API_BASE_URL + "/api/class_dep";
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        setStudents(data.students)
+        setClassDeps(data);       
 
       })
-  }, [])
+  }, []);
+  //Load Students Class
 
   const subjectsList = subjects.map((subject) => <MenuItem key={subject.id} value={subject.id}>{subject.title}</MenuItem>);
-
 
   const changeSubject = (e) => {
     fetch(subjectsUrl + "/" + e.target.value, {
@@ -60,11 +63,20 @@ function Stage() {
 
   }
 
-  const handleThemes = (e) => {
-    console.log(e.target.value);
+
+  const changeTheme = (e) => {
     setActiveThemeId(e.target.value)
 
   }
+const changeClassDep = e => {
+   const url = API_BASE_URL + "/api/class_dep/" + e.target.value;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setStudents(data.students);
+        setActiveClassDep(e.target.value);
+      }); 
+}
 
   return (
     <Box>
@@ -84,8 +96,8 @@ function Stage() {
             <Select
               variant='outlined'
               sx={{ color: '#ffffff' }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="subject-simple-select-label"
+              id="subject-simple-select"
               value={activeSubject}
               label="Предмет"
               onChange={changeSubject}
@@ -98,17 +110,30 @@ function Stage() {
             <Select
               variant='outlined'
               sx={{ color: '#ffffff' }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="theme-simple-select-label"
+              id="theme-simple-select"
               value={activeThemeId ? activeThemeId : ""}
               label="Теме"
-              onChange={handleThemes}
+              onChange={changeTheme}
             >
-              {themes.map((theme) => <MenuItem key={theme.id} value={theme ? theme.id : ""}>{theme.title}</MenuItem>)}
+              {themes.map((theme, index) => <MenuItem key={index} value={theme ? theme.id : ""}>{theme.title}</MenuItem>)}
             </Select>
           </FormControl> : ""
           }
-
+          {classDeps ? <FormControl sx={{ flexGrow: 1, margin: '0 15px' }} size='normal' >
+            <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Одељење</InputLabel>
+            <Select
+              variant='outlined'
+              sx={{ color: '#ffffff' }}
+              labelId="theme-simple-select-label"
+              id="theme-simple-select"
+              value={activeClassDep ? activeClassDep : ""}
+              label="Теме"
+              onChange={changeClassDep}
+            >
+              {classDeps.map((classDep) => <MenuItem key={classDep.id} value={classDep.id}>{classDep.name}</MenuItem>)}
+            </Select>
+          </FormControl> : ""}
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
@@ -121,7 +146,7 @@ function Stage() {
         </Grid>
         <Grid item xs={6} xl={6} sx={{ backgroundColor: '#F9F9F9' }}>
           <StageContext.Provider value={{ activeStudent, activeOutcome }}>
-            <MainStage  />
+            <MainStage />
           </StageContext.Provider>
 
         </Grid>

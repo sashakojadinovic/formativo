@@ -36,6 +36,9 @@ class AnswerController extends Controller
         $answer->student()->associate($student_id);
         $answer->question()->associate($question_id);
         $answer->assessment()->associate($assessment_id);
+        if($request->input('comment')!=="") {
+            $answer->comment =$request->input('comment');
+        }
         $answer->save();
         $res = ["response_type"=>"json", "response_value"=>"Success"];
         //return response()->json($res);

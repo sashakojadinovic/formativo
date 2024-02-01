@@ -1,14 +1,20 @@
-import { Box, AppBar, Toolbar, Typography, Paper, CardContent, TableContainer, Table, TableRow, TableHead, TableCell, TableBody, IconButton } from '@mui/material'
+import { Box, AppBar, Toolbar, Typography, Paper, CardContent, TableContainer, Table, TableRow, TableHead, TableCell, TableBody, IconButton, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { API_BASE_URL } from './apiUrls';
 
+
 function Student() {
   const { id } = useParams();
-  let [student, setStudent] = useState(null)
-  let [answers, setAnswers] = useState(null)
+  const nextStudentId = Number(id)+1;
+  const [student, setStudent] = useState(null);
+  const [answers, setAnswers] = useState(null);
   useEffect(() => {
     const url = API_BASE_URL + "/api/student/" + id
     fetch(url)
@@ -19,7 +25,7 @@ function Student() {
         setAnswers(data.answers);
 
       })
-  }, []);
+  }, [id]);
   const deleteAnswer = (idToDelete) =>{
     fetch(API_BASE_URL + '/api/answer/'+idToDelete, {
       headers: {
@@ -50,6 +56,8 @@ function Student() {
             sx={{ mr: 2 }}></AccountCircleIcon> <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {student.first_name} {student.last_name}
           </Typography>
+          <Button color='inherit'  component={Link} to={'/student/' + (id-1)}  aria-label="едит"> <ArrowBackIosIcon /></Button>
+          <Button color='inherit'  component={Link} to={'/student/' + nextStudentId}  aria-label="едит"> <ArrowForwardIosIcon /></Button>
         </Toolbar>
       </AppBar>
 
@@ -85,7 +93,7 @@ function Student() {
               <TableCell component="th" scope="row">{answer.question.description}</TableCell>              
               <TableCell component="th" scope="row">{answer.assessment_id}</TableCell>
               <TableCell component="th" scope="row">{answer.date}</TableCell>
-              <TableCell component="th" scope="row"><IconButton onClick={()=>deleteAnswer(answer.id)} aria-label="delete"> <DeleteIcon   /></IconButton></TableCell>
+              <TableCell component="th" scope="row"><IconButton onClick={()=>console.log("OK")} aria-label="едит"> <EditNoteIcon   /></IconButton><IconButton onClick={()=>deleteAnswer(answer.id)} aria-label="delete"> <DeleteIcon   /></IconButton></TableCell>
 
             </TableRow>
 

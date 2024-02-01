@@ -16,7 +16,7 @@ function ClassDeps() {
                 setClassDeps(data)
 
             })
-    }, [])
+    }, []);
     if (classDeps) {
         classDepList = classDeps.map(item => {
             return (

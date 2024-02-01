@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
-import { Container, Box, Card, Dialog, DialogActions, Typography, Button, DialogContent, Snackbar, Alert, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Container, Box, Card, Dialog, DialogActions, Typography, Button, DialogContent, Snackbar, Alert, RadioGroup, FormControlLabel, Radio, TextField } from '@mui/material';
 import FPrimaryButton from './ui/buttons/FPrimaryButton'
 import { API_BASE_URL } from './apiUrls';
 import { StageContext } from '../contexts/StageContext';
@@ -11,6 +11,7 @@ function MainStage(props) {
     const [rate, setRate] = useState(null);
     const [snackOpened, setSnackOpened] = useState(false);
     const [choosenQuestion, setChoosenQuestion] = useState("");
+    const [comment, setComment] = useState("");
 
     const { activeStudent, activeOutcome } = useContext(StageContext);
     const saveAnswer = () => {
@@ -21,7 +22,7 @@ function MainStage(props) {
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: JSON.stringify({ studentId: activeStudent.id, questionId: choosenQuestion, assessmentId: rate })
+            body: JSON.stringify({ studentId: activeStudent.id, questionId: choosenQuestion, assessmentId: rate, comment: comment })
         })
             .then(res => res.json())
             .then(data => {
@@ -54,9 +55,9 @@ function MainStage(props) {
                     <Button variant='contained' size='small' color='primary' onClick={() => saveAnswer()}><CloudUploadIcon className='mr-2' fontSize='small' /> Потврди</Button>
                 </DialogActions>
             </Dialog>
-            <Typography sx={{ fontSize: 18, marginTop: 3 }}  gutterBottom>
+            <Typography sx={{ fontSize: 18, marginTop: 3 }} gutterBottom>
                 Исход: Ученик/ученица је у стању да {activeOutcome ? activeOutcome.description : ""}
-            </Typography>           
+            </Typography>
             <Typography className='pt-5' sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 Предложена питања:
             </Typography>
@@ -76,13 +77,6 @@ function MainStage(props) {
 
                     : ""}
             </Card>
-            <Box className='flex justify-end pt-10 gap-1'>
-
-                <FPrimaryButton onClick={() => { setRate(3); setDialogOpen(true) }} variant='contained' color='primary'>Добро</FPrimaryButton>
-                <FPrimaryButton onClick={() => { setRate(2); setDialogOpen(true) }} variant='contained' color='primary'>Делимично</FPrimaryButton>
-                <FPrimaryButton onClick={() => { setRate(1); setDialogOpen(true) }} variant='contained' color='primary'>Лоше</FPrimaryButton>
-
-            </Box>
 
             <Card className='p-5 mt-5'>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -90,6 +84,20 @@ function MainStage(props) {
                 </Typography>
                 <p>{activeStudent ? activeStudent.first_name + " " + activeStudent.last_name : ""}</p>
             </Card>
+            <Card className='p-5 mt-5'>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    Коментар:
+                </Typography>
+                <TextField value={comment} onChange={(e) => setComment(e.target.value)} multiline rows={2} fullWidth id="new-comment-textfield" label="Текст коментара" variant="outlined" />
+
+            </Card>
+            <Box className='flex justify-end pt-10 gap-1'>
+
+                <FPrimaryButton onClick={() => { setRate(3); setDialogOpen(true) }} variant='contained' color='primary'>Добро</FPrimaryButton>
+                <FPrimaryButton onClick={() => { setRate(2); setDialogOpen(true) }} variant='contained' color='primary'>Делимично</FPrimaryButton>
+                <FPrimaryButton onClick={() => { setRate(1); setDialogOpen(true) }} variant='contained' color='primary'>Лоше</FPrimaryButton>
+
+            </Box>
 
 
         </Container>

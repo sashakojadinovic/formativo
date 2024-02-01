@@ -9,12 +9,12 @@ const [score, setScore] = useState(0);
     if (score > 0) {
         return (
             <Badge badgeContent={score} >
-                <Button sx={{textTransform:'capitalize', lineHeight:'1.25rem'}} onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}} color={props.color} size='small' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>
+                <Button sx={{textTransform:'capitalize', lineHeight:'1.25rem'}} onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}} color={props.color} size='normal' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>
             </Badge>)
     }
     else {
         return (
-            <Button sx={{textTransform:'capitalize'}}  onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}}  color={props.color} size='small' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>)
+            <Button sx={{textTransform:'capitalize', lineHeight:'1.25rem'}}  onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}}  color={props.color} size='normal' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>)
 
     }
 }
