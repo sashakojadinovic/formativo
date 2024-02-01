@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Feb 01, 2024 at 10:25 AM
--- Server version: 8.0.32-0ubuntu0.22.04.2
--- PHP Version: 8.2.9
+-- Host: 127.0.0.1
+-- Generation Time: Feb 01, 2024 at 06:16 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `answers` (
-  `id` bigint UNSIGNED NOT NULL,
-  `student_id` bigint UNSIGNED NOT NULL,
-  `question_id` bigint UNSIGNED NOT NULL,
-  `assessment_id` bigint UNSIGNED NOT NULL,
-  `comment` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `question_id` bigint(20) UNSIGNED NOT NULL,
+  `assessment_id` bigint(20) UNSIGNED NOT NULL,
+  `comment` varchar(1024) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -154,7 +154,88 @@ INSERT INTO `answers` (`id`, `student_id`, `question_id`, `assessment_id`, `comm
 (177, 170, 81, 2, NULL, '2024-01-31 15:58:06', '2024-01-31 15:58:06'),
 (178, 167, 81, 3, NULL, '2024-01-31 15:59:59', '2024-01-31 15:59:59'),
 (179, 158, 81, 2, NULL, '2024-01-31 16:10:45', '2024-01-31 16:10:45'),
-(183, 172, 73, 3, 'Коментар', '2024-01-31 21:27:18', '2024-01-31 21:27:18');
+(183, 172, 73, 3, 'Коментар', '2024-01-31 21:27:18', '2024-01-31 21:27:18'),
+(184, 34, 72, 3, NULL, '2024-02-01 13:06:46', '2024-02-01 13:06:46'),
+(185, 32, 72, 3, NULL, '2024-02-01 13:07:46', '2024-02-01 13:07:46'),
+(186, 24, 72, 3, NULL, '2024-02-01 13:08:06', '2024-02-01 13:08:06'),
+(187, 45, 72, 1, NULL, '2024-02-01 13:09:48', '2024-02-01 13:09:48'),
+(188, 42, 72, 3, NULL, '2024-02-01 13:10:08', '2024-02-01 13:10:08'),
+(189, 29, 72, 3, NULL, '2024-02-01 13:10:43', '2024-02-01 13:10:43'),
+(190, 29, 72, 3, NULL, '2024-02-01 13:10:44', '2024-02-01 13:10:44'),
+(191, 46, 72, 2, NULL, '2024-02-01 13:33:09', '2024-02-01 13:33:09'),
+(192, 44, 72, 2, NULL, '2024-02-01 13:34:22', '2024-02-01 13:34:22'),
+(193, 36, 72, 2, NULL, '2024-02-01 13:35:37', '2024-02-01 13:35:37'),
+(194, 38, 67, 1, NULL, '2024-02-01 13:36:47', '2024-02-01 13:36:47'),
+(195, 33, 67, 1, NULL, '2024-02-01 13:37:20', '2024-02-01 13:37:20'),
+(196, 24, 87, 3, NULL, '2024-02-01 13:38:18', '2024-02-01 13:38:18'),
+(197, 24, 89, 3, NULL, '2024-02-01 13:38:38', '2024-02-01 13:38:38'),
+(198, 28, 72, 3, NULL, '2024-02-01 13:39:45', '2024-02-01 13:39:45'),
+(199, 35, 67, 3, NULL, '2024-02-01 13:40:16', '2024-02-01 13:40:16'),
+(200, 40, 72, 3, NULL, '2024-02-01 13:40:56', '2024-02-01 13:40:56'),
+(201, 47, 72, 3, NULL, '2024-02-01 13:41:36', '2024-02-01 13:41:36'),
+(202, 47, 87, 3, NULL, '2024-02-01 13:41:47', '2024-02-01 13:41:47'),
+(203, 124, 73, 1, NULL, '2024-02-01 14:11:53', '2024-02-01 14:11:53'),
+(204, 131, 73, 1, NULL, '2024-02-01 14:12:14', '2024-02-01 14:12:14'),
+(205, 146, 73, 1, NULL, '2024-02-01 14:12:23', '2024-02-01 14:12:23'),
+(206, 146, 73, 1, NULL, '2024-02-01 14:13:32', '2024-02-01 14:13:32'),
+(207, 146, 73, 1, NULL, '2024-02-01 14:13:33', '2024-02-01 14:13:33'),
+(208, 143, 73, 1, NULL, '2024-02-01 14:15:18', '2024-02-01 14:15:18'),
+(209, 123, 73, 3, NULL, '2024-02-01 14:16:39', '2024-02-01 14:16:39'),
+(210, 128, 74, 2, NULL, '2024-02-01 14:18:15', '2024-02-01 14:18:15'),
+(211, 136, 79, 1, NULL, '2024-02-01 14:18:56', '2024-02-01 14:18:56'),
+(212, 135, 77, 1, NULL, '2024-02-01 14:20:33', '2024-02-01 14:20:33'),
+(213, 133, 77, 3, NULL, '2024-02-01 14:21:46', '2024-02-01 14:21:46'),
+(214, 130, 73, 1, NULL, '2024-02-01 14:22:03', '2024-02-01 14:22:03'),
+(215, 134, 78, 2, NULL, '2024-02-01 14:24:12', '2024-02-01 14:24:12'),
+(216, 140, 78, 3, NULL, '2024-02-01 14:24:51', '2024-02-01 14:24:51'),
+(217, 145, 73, 3, NULL, '2024-02-01 14:26:03', '2024-02-01 14:26:03'),
+(218, 126, 80, 3, NULL, '2024-02-01 14:26:30', '2024-02-01 14:26:30'),
+(219, 141, 80, 3, NULL, '2024-02-01 14:27:00', '2024-02-01 14:27:00'),
+(220, 142, 80, 3, NULL, '2024-02-01 14:27:11', '2024-02-01 14:27:11'),
+(221, 140, 80, 3, NULL, '2024-02-01 14:27:19', '2024-02-01 14:27:19'),
+(222, 127, 73, 3, NULL, '2024-02-01 14:27:31', '2024-02-01 14:27:31'),
+(223, 49, 72, 1, NULL, '2024-02-01 14:40:07', '2024-02-01 14:40:07'),
+(224, 52, 72, 1, NULL, '2024-02-01 14:40:23', '2024-02-01 14:40:23'),
+(225, 56, 72, 1, NULL, '2024-02-01 14:40:34', '2024-02-01 14:40:34'),
+(226, 72, 72, 1, NULL, '2024-02-01 14:40:42', '2024-02-01 14:40:42'),
+(227, 69, 72, 3, NULL, '2024-02-01 14:41:15', '2024-02-01 14:41:15'),
+(228, 55, 72, 1, NULL, '2024-02-01 14:43:02', '2024-02-01 14:43:02'),
+(229, 55, 72, 1, NULL, '2024-02-01 14:43:03', '2024-02-01 14:43:03'),
+(230, 61, 72, 3, NULL, '2024-02-01 14:43:14', '2024-02-01 14:43:14'),
+(231, 60, 72, 3, NULL, '2024-02-01 14:43:40', '2024-02-01 14:43:40'),
+(232, 63, 72, 3, NULL, '2024-02-01 14:44:23', '2024-02-01 14:44:23'),
+(233, 64, 67, 3, NULL, '2024-02-01 14:45:12', '2024-02-01 14:45:12'),
+(234, 62, 68, 3, NULL, '2024-02-01 14:46:26', '2024-02-01 14:46:26'),
+(235, 62, 87, 3, NULL, '2024-02-01 14:47:11', '2024-02-01 14:47:11'),
+(236, 65, 88, 3, NULL, '2024-02-01 14:47:49', '2024-02-01 14:47:49'),
+(237, 48, 83, 3, NULL, '2024-02-01 14:49:01', '2024-02-01 14:49:01'),
+(238, 68, 83, 3, NULL, '2024-02-01 14:49:41', '2024-02-01 14:49:41'),
+(239, 51, 84, 3, NULL, '2024-02-01 14:50:51', '2024-02-01 14:50:51'),
+(240, 59, 84, 3, NULL, '2024-02-01 14:51:13', '2024-02-01 14:51:13'),
+(241, 71, 85, 3, NULL, '2024-02-01 14:52:31', '2024-02-01 14:52:31'),
+(242, 71, 85, 1, NULL, '2024-02-01 14:53:21', '2024-02-01 14:53:21'),
+(243, 54, 85, 3, NULL, '2024-02-01 14:53:32', '2024-02-01 14:53:32'),
+(244, 66, 86, 3, NULL, '2024-02-01 14:55:38', '2024-02-01 14:55:38'),
+(245, 67, 86, 1, NULL, '2024-02-01 14:57:21', '2024-02-01 14:57:21'),
+(246, 67, 72, 3, NULL, '2024-02-01 14:57:42', '2024-02-01 14:57:42'),
+(247, 53, 86, 3, NULL, '2024-02-01 14:58:05', '2024-02-01 14:58:05'),
+(248, 72, 86, 1, NULL, '2024-02-01 15:00:12', '2024-02-01 15:00:12'),
+(249, 58, 72, 1, NULL, '2024-02-01 15:01:55', '2024-02-01 15:01:55'),
+(250, 50, 87, 3, NULL, '2024-02-01 15:02:18', '2024-02-01 15:02:18'),
+(251, 70, 84, 1, NULL, '2024-02-01 15:03:57', '2024-02-01 15:03:57'),
+(252, 187, 77, 1, NULL, '2024-02-01 15:53:32', '2024-02-01 15:53:32'),
+(253, 175, 73, 2, NULL, '2024-02-01 15:55:17', '2024-02-01 15:55:17'),
+(254, 178, 73, 2, NULL, '2024-02-01 15:55:54', '2024-02-01 15:55:54'),
+(255, 174, 73, 3, NULL, '2024-02-01 15:56:29', '2024-02-01 15:56:29'),
+(256, 180, 74, 3, NULL, '2024-02-01 15:57:11', '2024-02-01 15:57:11'),
+(257, 182, 74, 1, NULL, '2024-02-01 15:57:48', '2024-02-01 15:57:48'),
+(258, 195, 74, 3, NULL, '2024-02-01 15:58:00', '2024-02-01 15:58:00'),
+(259, 190, 74, 2, NULL, '2024-02-01 15:59:15', '2024-02-01 15:59:15'),
+(260, 190, 77, 1, NULL, '2024-02-01 16:00:53', '2024-02-01 16:00:53'),
+(261, 189, 77, 1, NULL, '2024-02-01 16:01:03', '2024-02-01 16:01:03'),
+(262, 194, 77, 1, NULL, '2024-02-01 16:01:29', '2024-02-01 16:01:29'),
+(263, 194, 77, 2, NULL, '2024-02-01 16:02:23', '2024-02-01 16:02:23'),
+(264, 193, 80, 3, NULL, '2024-02-01 16:04:44', '2024-02-01 16:04:44');
 
 -- --------------------------------------------------------
 
@@ -163,10 +244,10 @@ INSERT INTO `answers` (`id`, `student_id`, `question_id`, `assessment_id`, `comm
 --
 
 CREATE TABLE `assessments` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` int NOT NULL,
-  `description` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `value` int(11) NOT NULL,
+  `description` tinytext NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -187,9 +268,9 @@ INSERT INTO `assessments` (`id`, `title`, `value`, `description`, `created_at`, 
 --
 
 CREATE TABLE `class_departments` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `year` int NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `year` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -215,13 +296,13 @@ INSERT INTO `class_departments` (`id`, `name`, `year`, `created_at`, `updated_at
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -231,9 +312,9 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -263,10 +344,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `outcomes` (
-  `id` bigint UNSIGNED NOT NULL,
-  `unit_id` bigint UNSIGNED NOT NULL,
-  `order_number` int NOT NULL DEFAULT '1',
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `unit_id` bigint(20) UNSIGNED NOT NULL,
+  `order_number` int(11) NOT NULL DEFAULT 1,
+  `description` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -293,9 +374,9 @@ INSERT INTO `outcomes` (`id`, `unit_id`, `order_number`, `description`, `created
 --
 
 CREATE TABLE `outcome_question` (
-  `id` bigint UNSIGNED NOT NULL,
-  `question_id` int NOT NULL,
-  `outcome_id` int NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `outcome_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -331,8 +412,8 @@ INSERT INTO `outcome_question` (`id`, `question_id`, `outcome_id`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -343,12 +424,12 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 CREATE TABLE `personal_access_tokens` (
-  `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -362,8 +443,8 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `questions` (
-  `id` bigint UNSIGNED NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `description` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -401,13 +482,13 @@ INSERT INTO `questions` (`id`, `description`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `students` (
-  `id` bigint UNSIGNED NOT NULL,
-  `class_department_id` bigint UNSIGNED NOT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_num` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `class_department_id` bigint(20) UNSIGNED NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `id_num` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -616,8 +697,8 @@ INSERT INTO `students` (`id`, `class_department_id`, `first_name`, `last_name`, 
 --
 
 CREATE TABLE `subjects` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -637,9 +718,9 @@ INSERT INTO `subjects` (`id`, `title`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `themes` (
-  `id` bigint UNSIGNED NOT NULL,
-  `subject_id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -664,9 +745,9 @@ INSERT INTO `themes` (`id`, `subject_id`, `title`, `created_at`, `updated_at`) V
 --
 
 CREATE TABLE `units` (
-  `id` bigint UNSIGNED NOT NULL,
-  `theme_id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `theme_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -691,12 +772,12 @@ INSERT INTO `units` (`id`, `theme_id`, `title`, `created_at`, `updated_at`) VALU
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -807,85 +888,85 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT for table `assessments`
 --
 ALTER TABLE `assessments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `class_departments`
 --
 ALTER TABLE `class_departments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `outcomes`
 --
 ALTER TABLE `outcomes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `outcome_question`
 --
 ALTER TABLE `outcome_question`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
 
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `themes`
 --
 ALTER TABLE `themes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192858;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192858;
 
 --
 -- AUTO_INCREMENT for table `units`
 --
 ALTER TABLE `units`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
