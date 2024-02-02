@@ -1,5 +1,6 @@
 import { Box, AppBar, Toolbar, Typography, Paper, CardContent, TableContainer, Table, TableRow, TableHead, TableCell, TableBody, IconButton, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -48,6 +49,7 @@ function Student() {
     appbar = (<Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#1C2536" }}>
         <Toolbar>
+        <IconButton component={Link} to={"/"} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}> <WorkspacesIcon /> </IconButton>
           <AccountCircleIcon
             size="large"
             edge="start"

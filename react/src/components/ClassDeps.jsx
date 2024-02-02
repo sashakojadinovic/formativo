@@ -1,5 +1,5 @@
 import { Button, Box, AppBar, Toolbar, Typography } from '@mui/material'
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import SchoolIcon from '@mui/icons-material/School';
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { API_BASE_URL } from './apiUrls';
@@ -33,16 +33,7 @@ function ClassDeps() {
                 <Box sx={{ flexGrow: 1 }}>
                     <AppBar position="static" sx={{ backgroundColor: "#1C2536" }}>
                         <Toolbar>
-                            <AccountBalanceIcon size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                sx={{ mr: 2 }} >
-
-                            </AccountBalanceIcon>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                ОШ "Свети Сава" Велика Плана
-                            </Typography>
+                            <SchoolIcon size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} ></SchoolIcon> <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>  ОШ "Свети Сава" Велика Плана </Typography>
                         </Toolbar>
                     </AppBar>
                 </Box >

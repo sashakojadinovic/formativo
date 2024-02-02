@@ -4,7 +4,11 @@ import QuestionsBook from './QuestionsBook';
 import MainStage from './MainStage';
 import ClassDep from './ClassDep';
 import { AppBar, Toolbar, IconButton, Typography, Box, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import SchoolIcon from '@mui/icons-material/School';
 import { API_BASE_URL } from './apiUrls';
 import { StageContext } from '../contexts/StageContext';
 //import {StudentsContext} from '../contexts/StudentsContext';
@@ -42,7 +46,7 @@ function Stage() {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        setClassDeps(data);       
+        setClassDeps(data);
 
       })
   }, []);
@@ -68,29 +72,23 @@ function Stage() {
     setActiveThemeId(e.target.value)
 
   }
-const changeClassDep = e => {
-   const url = API_BASE_URL + "/api/class_dep/" + e.target.value;
+  const changeClassDep = e => {
+    const url = API_BASE_URL + "/api/class_dep/" + e.target.value;
     fetch(url)
       .then(res => res.json())
       .then(data => {
         setStudents(data.students);
         setActiveClassDep(e.target.value);
-      }); 
-}
+      });
+  }
 
   return (
     <Box>
       <AppBar position="static" sx={{ backgroundColor: '#1C2536' }} className='p-2' >
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}><MenuIcon /></IconButton>
+          <IconButton component={Link} to={"/"} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}> <WorkspacesIcon /> </IconButton>
+          <IconButton component={Link} to={"/classes"} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}> <SchoolIcon /> </IconButton>
           <FormControl sx={{ flexGrow: 1 }} size='normal'>
             <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Предмет</InputLabel>
             <Select
