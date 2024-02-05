@@ -8,7 +8,6 @@ function ClassDeps() {
     let [classDeps, setClassDeps] = useState(null)
     let classDepList = []
     useEffect(() => {
-        //const url = "http://192.168.0.101:8000/api/class_dep"
         const url = API_BASE_URL + "/api/class_dep";
         fetch(url)
             .then(res => res.json())

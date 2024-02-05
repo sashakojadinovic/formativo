@@ -7,7 +7,6 @@ import { AppBar, Toolbar, IconButton, Typography, Box, Button, Grid, FormControl
 import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SchoolIcon from '@mui/icons-material/School';
 import { API_BASE_URL } from './apiUrls';
 import { StageContext } from '../contexts/StageContext';

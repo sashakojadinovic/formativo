@@ -29,6 +29,7 @@ function MainStage(props) {
                 setDialogOpen(false);
                 if (data.status === "success") {
 
+                    setComment("");
                     setSnackOpened('success');
                 }
                 else {
