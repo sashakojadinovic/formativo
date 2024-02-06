@@ -23,7 +23,6 @@ function Stage() {
   const [activeThemeId, setActiveThemeId] = useState(null);
   const [students, setStudents] = useState([]);
 
-  //const subjectsUrl = 'http://192.168.0.101:8000/api/subject';
   const subjectsUrl = API_BASE_URL + "/api/subject";
   //Load Subject list
   useEffect(() => {

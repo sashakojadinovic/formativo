@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { API_BASE_URL } from './apiUrls';
+import StudentStageBadge from './StudentStageBadge';
 
 
 function ClassDep(props) {
@@ -14,7 +15,6 @@ function ClassDep(props) {
     let [classDep, setClassDep] = useState(null);
     let studentsList = [];
     useEffect(() => {
-        //const url = "http://192.168.0.101:8000/api/class_dep/" + getID;
         const url = API_BASE_URL + "/api/class_dep/" + getID;
         fetch(url)
             .then(res => res.json())
@@ -28,9 +28,13 @@ function ClassDep(props) {
     if (students) {
         studentsList = students.map(item => {
             return (
+                <>
+{/*                     <StudentStageBadge component={Link} to={'/student/' + item.id} onClick={() => console.log("OK")} first_name={item.first_name} last_name={item.last_name} key={item.id} color='success' />
+                    <span>Test</span> */}
+                    < Button component={Link} to={'/student/' + item.id} key={item.id} color='warning' className='w-full xl:6/12' size='large' variant='outlined' > {item.first_name} {item.last_name} {`(${item.answers_count})`}</Button >
 
-                < Button component={Link} to={'/student/' + item.id} key={item.id} color='warning' className='w-full xl:6/12' size='large' variant='outlined' > {item.first_name} {item.last_name}</Button >
-
+                </>
+                 
             )
         })
         return (

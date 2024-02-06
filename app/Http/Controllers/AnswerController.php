@@ -39,6 +39,9 @@ class AnswerController extends Controller
         if($request->input('comment')!=="") {
             $answer->comment =$request->input('comment');
         }
+        if($request->input('recommendation')!=="") {
+            $answer->recommendation =$request->input('recommendation');
+        }
         $answer->save();
         $res = ["response_type"=>"json", "response_value"=>"Success"];
         //return response()->json($res);

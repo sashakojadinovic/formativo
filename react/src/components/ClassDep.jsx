@@ -13,7 +13,7 @@ function ClassDep(props) {
   if (students) {
     studentsList = students.map(item => {
       return (
-        <StudentStageBadge first_name={item.first_name} last_name={item.last_name} key={item.id} onClick={() => setActiveStudent(item)} color='success' />
+        <StudentStageBadge first_name={item.first_name} last_name={item.last_name} answers_count={item.answers_count} key={item.id} onClick={() => setActiveStudent(item)} color='success' />
       )
     })
     return (

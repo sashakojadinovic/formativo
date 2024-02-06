@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Question::class);
             $table->foreignIdFor(Assessment::class);
             $table->string('comment', 1024);
+            $table->string('recommendation', 1024);
             $table->timestamps();
         });
     }

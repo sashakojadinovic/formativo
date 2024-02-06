@@ -4,23 +4,30 @@ import { Badge as BaseBadge, badgeClasses } from '@mui/base/Badge';
 import { useState } from "react";
 
 const StudentStageBadge = (props) => {
-const [score, setScore] = useState(0);
+    const [score, setScore] = useState(0);
+    const [answersCount, setAnswersCount] = useState(0);
 
-    if (score > 0) {
-        return (
-            <Badge badgeContent={score} >
-                <Button sx={{textTransform:'capitalize', lineHeight:'1.25rem'}} onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}} color={props.color} size='normal' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>
-            </Badge>)
-    }
-    else {
-        return (
-            <Button sx={{textTransform:'capitalize', lineHeight:'1.25rem'}}  onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}}  color={props.color} size='normal' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>)
+    /*     if (score > 0) {
+            return (
+                <Badge badgeContent={score} >
+                    <Button sx={{textTransform:'capitalize', lineHeight:'1.25rem'}} onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}} color={props.color} size='normal' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>
+                </Badge>)
+        }
+        else {
+            return (
+                <Button sx={{textTransform:'capitalize', lineHeight:'1.25rem'}}  onClick={()=>{props.onClick(); console.log(score); setScore(score+1)}}  color={props.color} size='normal' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>)
+    
+        } */
 
-    }
+    return (<Badge badgeContent={props.answers_count?props.answers_count:0} >
+        <Button sx={{ textTransform: 'capitalize', lineHeight: '1.25rem' }} onClick={() => { props.onClick(); console.log(score); setScore(score + 1) }} color={props.color} size='normal' fullWidth variant='contained' >{props.first_name}<br />{props.last_name}</Button>
+    </Badge>)
+
+
 }
 const blue = {
     500: '#007FFF',
-   
+
 };
 const orange = {
     500: '#ed6c02'
