@@ -12,6 +12,6 @@
     font-size: 1.25rem !important;
    
   }
-  /* .MuiSelect-outlined {
-    background-color: #303c5352 !important;
-  } */
+  .MuiSelect-select	.action-buttons {
+    display:none;
+  }

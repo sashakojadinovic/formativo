@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle, DialogActions, TextField, Button, Box, AppBar, Toolbar, IconButton, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, DialogActions, TextField, Button, Box, AppBar, Toolbar, Tooltip, IconButton, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PostAddTwoToneIcon from '@mui/icons-material/PostAddTwoTone';
@@ -6,10 +6,11 @@ import PlaylistAddTwoToneIcon from '@mui/icons-material/PlaylistAddTwoTone';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from 'react';
 import { API_BASE_URL } from './apiUrls';
-import { Form } from 'react-router-dom';
-import { Container } from 'postcss';
+
 
 
 
@@ -43,35 +44,49 @@ function NewOutcome(props) {
     }, []);
 
     const changeSubject = (e) => {
-        setActiveSubject(e.target.value);
-        fetch(API_BASE_URL + "/api/subject/" + e.target.value, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'GET'
-        }, [])
-            .then(res => res.json())
-            .then(data => setThemes(data.themes));
+        if (e.target.value === "newSubject") {
+            setOutcomeDialogOpen(!outcomeDalogOpen);
+        }
+        else {
+            setActiveSubject(e.target.value);
+            fetch(API_BASE_URL + "/api/subject/" + e.target.value, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'GET'
+            }, [])
+                .then(res => res.json())
+                .then(data => { setThemes(data.themes); setActiveTheme("") });
+        }
     }
+
 
     const changeTheme = e => {
-        setActiveTheme(e.target.value);
-        fetch(API_BASE_URL + "/api/theme/" + e.target.value, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'GET'
-        }, [])
-            .then(res => res.json())
-            .then(data => setUnits(data.units));
+        if (e.target.value === "newTheme") {
+            setOutcomeDialogOpen(!outcomeDalogOpen);
+        }
+        else {
+            setActiveTheme(e.target.value);
+            fetch(API_BASE_URL + "/api/theme/" + e.target.value, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'GET'
+            }, [])
+                .then(res => res.json())
+                .then(data => { setUnits(data.units); setActiveUnit("") });
+        }
     }
     const changeUnit = (e) => {
-        setActiveUnit(e.target.value);
-        console.log(e.target.value);
-
-        setOutcomesToDisplay(units.find(unit => unit.id === e.target.value).outcomes);
+        if (e.target.value === "newUnit") {
+            setOutcomeDialogOpen(!outcomeDalogOpen);
+        }
+        else {
+            setActiveUnit(e.target.value);
+            setOutcomesToDisplay(units.find(unit => unit.id === e.target.value).outcomes);
+        }
     }
 
 
@@ -128,23 +143,22 @@ function NewOutcome(props) {
             });
     };
     const deleteOutcome = id => {
-        fetch(API_BASE_URL + "/api/outcome/"+id, {
+        fetch(API_BASE_URL + "/api/outcome/" + id, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             method: 'DELETE',
         })
-        .then(res=>res.json())
-        .then(data=>{
-            //console.log(data.status);
-            if(data.status==="success"){
-                const newOutcomes = outcomesToDisplay.filter(outcome=>outcome.id!==id);
-                setOutcomesToDisplay(newOutcomes);
-                console.log("Izbrisan ishod sa ID:"+id);
-            } 
-        })
-        
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    const newOutcomes = outcomesToDisplay.filter(outcome => outcome.id !== id);
+                    setOutcomesToDisplay(newOutcomes);
+                    console.log("Izbrisan ishod sa ID:" + id);
+                }
+            })
+
     }
     const deleteQuestion = id => {
 
@@ -198,7 +212,7 @@ function NewOutcome(props) {
                     <Button disabled={questionToSave === ""} onClick={saveQuestion} size='small' color='info' variant='contained'><CloudUploadIcon className='mr-2' fontSize='small' /> Сачувај</Button>
                 </DialogActions>
             </Dialog>
-            
+
             <Box sx={{ flexGrow: 1 }}>
                 <Snackbar open={snackOpened} autoHideDuration={6000} onClose={() => setSnackOpened(false)}>
                     <Alert onClose={() => setSnackOpened(false)} severity={snackOpened === "success" ? "success" : (snackOpened === "error" ? "error" : "info")} sx={{ width: '100%' }}>
@@ -213,29 +227,59 @@ function NewOutcome(props) {
                         <FormControl sx={{ width: '20%' }} >
                             <InputLabel sx={{ color: '#ffffff' }} id="select-subject-label">Предмет</InputLabel>
                             <Select variant='outlined' sx={{ color: '#ffffff' }} id="select-subject" value={activeSubject} label="Предмет" onChange={changeSubject}>
-                                {subjects.map((subject, index) => <MenuItem key={index} value={subject.id}>{subject.title}</MenuItem>)}
+                                {subjects.map((subject, index) => <MenuItem key={index} value={subject.id}>{subject.title}
+                                    <div className='action-buttons' style={{ marginLeft: "auto" }}>
+                                        <Tooltip title="Измени">
+                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(subject.title)}}><EditNoteIcon /></IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Избриши">
+                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(subject.title)}}><DeleteIcon /></IconButton>
+                                        </Tooltip>
+
+                                    </div></MenuItem>)}
+                                <MenuItem value={'newSubject'}><PostAddTwoToneIcon fontSize='medium' color='info' /> Додај нови предмет</MenuItem>
                             </Select>
                         </FormControl>
                         {activeSubject ? <FormControl sx={{ width: '30%' }}>
                             <InputLabel sx={{ color: '#ffffff' }} id="select-theme-label">Тема</InputLabel>
                             <Select variant='outlined' sx={{ color: '#ffffff' }} id="select-theme" value={activeTheme} label="Тема" onChange={changeTheme}>
-                                {themes.map((theme, index) => <MenuItem key={index} value={theme.id}>{theme.title}</MenuItem>)}
+                                {themes.map((theme, index) => <MenuItem key={index} value={theme.id}>{theme.title}
+                                    <div className='action-buttons' style={{ marginLeft: "auto" }}>
+                                        <Tooltip title="Измени">
+                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(theme.title)}}><EditNoteIcon /></IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Избриши">
+                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(theme.title)}}><DeleteIcon /></IconButton>
+                                        </Tooltip>
+                                    </div>
+                                </MenuItem>)}
+
+                                <MenuItem value={'newTheme'}><PostAddTwoToneIcon fontSize='medium' color='info' /> Додај нову тему</MenuItem>
                             </Select>
                         </FormControl> : ""}
 
                         {activeTheme ? <FormControl sx={{ width: '30%' }}>
                             <InputLabel sx={{ color: '#ffffff' }} id="select-unit-label">Наставна јединица</InputLabel>
                             <Select variant='outlined' sx={{ color: '#ffffff' }} id="dselect-unit" value={activeUnit} label="Наставна јединица" onChange={changeUnit}>
-                                {units.map((unit, index) => <MenuItem key={index} data-index={index} value={unit.id}>{unit.title}</MenuItem>)}
+                                {units.map((unit, index) => <MenuItem key={index} data-index={index} value={unit.id}>{unit.title}
+                                <div className='action-buttons' style={{ marginLeft: "auto" }}>
+                                        <Tooltip title="Измени">
+                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(unit.title)}}><EditNoteIcon /></IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Избриши">
+                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(unit.title)}}><DeleteIcon /></IconButton>
+                                        </Tooltip>
+
+                                    </div>
+                                </MenuItem>)} <MenuItem value={'newUnit'}> <PostAddTwoToneIcon fontSize='medium' color='info' />Додај нову наставну јединицу</MenuItem>
                             </Select>
                         </FormControl> : ""}
                     </Toolbar>
                 </AppBar>
             </Box>
             <Box maxWidth={800} className='flex align-center mt-10 m-auto '>
+
                 {activeUnit ? <Button onClick={() => setOutcomeDialogOpen(!outcomeDalogOpen)} color='info'><PostAddTwoToneIcon fontSize='medium' color='info' /> Додај исход </Button> : ""}
-
-
 
             </Box>
             <Box maxWidth={800} className='flex align-center mt-2 m-auto '>
@@ -245,7 +289,7 @@ function NewOutcome(props) {
             <Box maxWidth={800} className='flex align-center mt-10 m-auto '>
                 {activeUnit ? <Typography sx={{ fontSize: '18px' }} color={Text.secondary}>Након обрађене наставне јединице ученик ће бити у стању да:</Typography> : ""}
             </Box>
-            <Box maxWidth={800} className='mt-2 m-auto '>
+            {activeUnit ? <Box maxWidth={800} className='mt-2 m-auto '>
                 {outcomesToDisplay.map((outcome, index) => {
                     return (
                         <Accordion key={index}>
@@ -268,7 +312,7 @@ function NewOutcome(props) {
                     );
 
                 })}
-            </Box>
+            </Box> : ""}
 
         </div>)
 
