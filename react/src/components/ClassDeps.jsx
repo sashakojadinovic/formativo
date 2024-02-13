@@ -3,6 +3,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { API_BASE_URL } from './apiUrls';
+import MainMenu from './MainMenu';
 
 function ClassDeps() {
     let [classDeps, setClassDeps] = useState(null)
@@ -32,6 +33,7 @@ function ClassDeps() {
                 <Box sx={{ flexGrow: 1 }}>
                     <AppBar position="static" sx={{ backgroundColor: "#1C2536" }}>
                         <Toolbar>
+                            <MainMenu />
                             <SchoolIcon size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} ></SchoolIcon> <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>  ОШ "Свети Сава" Велика Плана </Typography>
                         </Toolbar>
                     </AppBar>

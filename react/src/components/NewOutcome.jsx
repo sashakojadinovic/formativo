@@ -1,5 +1,9 @@
 import { Dialog, DialogContent, DialogTitle, DialogActions, TextField, Button, Box, AppBar, Toolbar, Tooltip, IconButton, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+import SchoolIcon from '@mui/icons-material/School';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PostAddTwoToneIcon from '@mui/icons-material/PostAddTwoTone';
 import PlaylistAddTwoToneIcon from '@mui/icons-material/PlaylistAddTwoTone';
@@ -9,9 +13,10 @@ import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from 'react';
+import EditForm from './EditForm';
 import { API_BASE_URL } from './apiUrls';
-
-
+import { BookAdminContext } from '../contexts/BookAdminContext';
+import MainMenu from './MainMenu';
 
 
 function NewOutcome(props) {
@@ -28,6 +33,10 @@ function NewOutcome(props) {
     //
     const [outcomeDalogOpen, setOutcomeDialogOpen] = useState(false);
     const [questionDalogOpen, setQuestionDialogOpen] = useState(false);
+    const [editFormOpen, setEditFormOpen] = useState(false);
+    const [editFormSettings, setEditFormSettings] = useState({});
+    //
+    const [refresh, doRefresh] = useState(false);
     //
     const [snackOpened, setSnackOpened] = useState(false);
 
@@ -41,11 +50,16 @@ function NewOutcome(props) {
         })
             .then(res => res.json())
             .then(data => setSubjects(data));
-    }, []);
+    }, [refresh]);
 
     const changeSubject = (e) => {
         if (e.target.value === "newSubject") {
-            setOutcomeDialogOpen(!outcomeDalogOpen);
+            //setOutcomeDialogOpen(!outcomeDalogOpen);
+            setEditFormSettings({
+                title: "Нови предмет"
+
+            });
+            setEditFormOpen(true);
         }
         else {
             setActiveSubject(e.target.value);
@@ -64,7 +78,13 @@ function NewOutcome(props) {
 
     const changeTheme = e => {
         if (e.target.value === "newTheme") {
-            setOutcomeDialogOpen(!outcomeDalogOpen);
+            //setOutcomeDialogOpen(!outcomeDalogOpen);
+            setEditFormSettings({
+                title: "Нова тема",
+                subjectId: activeSubject
+
+            });
+            setEditFormOpen(true);
         }
         else {
             setActiveTheme(e.target.value);
@@ -81,7 +101,7 @@ function NewOutcome(props) {
     }
     const changeUnit = (e) => {
         if (e.target.value === "newUnit") {
-            setOutcomeDialogOpen(!outcomeDalogOpen);
+            setEditFormOpen(!outcomeDalogOpen);
         }
         else {
             setActiveUnit(e.target.value);
@@ -190,6 +210,7 @@ function NewOutcome(props) {
     }
     return (
         <div style={{ backgroundColor: '#F9F9F9' }}>
+            {editFormOpen ? <BookAdminContext.Provider value={{ editFormOpen, setEditFormOpen, editFormSettings, refresh, doRefresh }}><EditForm editFormOpen={editFormOpen} /></BookAdminContext.Provider> : ""}
             <Dialog maxWidth="md" fullWidth open={outcomeDalogOpen}>
                 <DialogTitle>Нови исход у оквиру наставне јединице</DialogTitle>
                 <DialogContent>
@@ -221,19 +242,17 @@ function NewOutcome(props) {
                 </Snackbar>
                 <AppBar position="static" sx={{ backgroundColor: '#1C2536' }} className='p-2' >
                     <Toolbar>
-                        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-                            <MenuIcon />
-                        </IconButton>
+                        <MainMenu />
                         <FormControl sx={{ width: '20%' }} >
                             <InputLabel sx={{ color: '#ffffff' }} id="select-subject-label">Предмет</InputLabel>
                             <Select variant='outlined' sx={{ color: '#ffffff' }} id="select-subject" value={activeSubject} label="Предмет" onChange={changeSubject}>
                                 {subjects.map((subject, index) => <MenuItem key={index} value={subject.id}>{subject.title}
                                     <div className='action-buttons' style={{ marginLeft: "auto" }}>
                                         <Tooltip title="Измени">
-                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(subject.title)}}><EditNoteIcon /></IconButton>
+                                            <IconButton size='small' onClick={(e) => { e.stopPropagation(); console.log(subject.title) }}><EditNoteIcon /></IconButton>
                                         </Tooltip>
                                         <Tooltip title="Избриши">
-                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(subject.title)}}><DeleteIcon /></IconButton>
+                                            <IconButton size='small' onClick={(e) => { e.stopPropagation(); console.log(subject.title) }}><DeleteIcon /></IconButton>
                                         </Tooltip>
 
                                     </div></MenuItem>)}
@@ -246,10 +265,10 @@ function NewOutcome(props) {
                                 {themes.map((theme, index) => <MenuItem key={index} value={theme.id}>{theme.title}
                                     <div className='action-buttons' style={{ marginLeft: "auto" }}>
                                         <Tooltip title="Измени">
-                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(theme.title)}}><EditNoteIcon /></IconButton>
+                                            <IconButton size='small' onClick={(e) => { e.stopPropagation(); console.log(theme.title) }}><EditNoteIcon /></IconButton>
                                         </Tooltip>
                                         <Tooltip title="Избриши">
-                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(theme.title)}}><DeleteIcon /></IconButton>
+                                            <IconButton size='small' onClick={(e) => { e.stopPropagation(); console.log(theme.title) }}><DeleteIcon /></IconButton>
                                         </Tooltip>
                                     </div>
                                 </MenuItem>)}
@@ -262,12 +281,12 @@ function NewOutcome(props) {
                             <InputLabel sx={{ color: '#ffffff' }} id="select-unit-label">Наставна јединица</InputLabel>
                             <Select variant='outlined' sx={{ color: '#ffffff' }} id="dselect-unit" value={activeUnit} label="Наставна јединица" onChange={changeUnit}>
                                 {units.map((unit, index) => <MenuItem key={index} data-index={index} value={unit.id}>{unit.title}
-                                <div className='action-buttons' style={{ marginLeft: "auto" }}>
+                                    <div className='action-buttons' style={{ marginLeft: "auto" }}>
                                         <Tooltip title="Измени">
-                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(unit.title)}}><EditNoteIcon /></IconButton>
+                                            <IconButton size='small' onClick={(e) => { e.stopPropagation(); console.log(unit.title) }}><EditNoteIcon /></IconButton>
                                         </Tooltip>
                                         <Tooltip title="Избриши">
-                                            <IconButton size='small' onClick={(e) => {e.stopPropagation(); console.log(unit.title)}}><DeleteIcon /></IconButton>
+                                            <IconButton size='small' onClick={(e) => { e.stopPropagation(); console.log(unit.title) }}><DeleteIcon /></IconButton>
                                         </Tooltip>
 
                                     </div>

@@ -1,7 +1,7 @@
 import { Box, AppBar, Toolbar, Typography, Paper, CardContent, TableContainer, Table, TableRow, TableHead, TableCell, TableBody, IconButton, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonIcon from '@mui/icons-material/Person';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -9,7 +9,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { API_BASE_URL } from './apiUrls';
-
+import MainMenu from './MainMenu';
+import Person from '@mui/icons-material/Person';
 
 function Student() {
   const { id } = useParams();
@@ -49,13 +50,13 @@ function Student() {
     appbar = (<Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#1C2536" }}>
         <Toolbar>
-        <IconButton component={Link} to={"/"} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}> <WorkspacesIcon /> </IconButton>
-          <AccountCircleIcon
+        <MainMenu />
+          <PersonIcon
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}></AccountCircleIcon> <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            sx={{ mr: 2 }}></PersonIcon> <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {student.first_name} {student.last_name}
           </Typography>
           <Button color='inherit'  component={Link} to={'/student/' + (id-1)}  aria-label="едит"> <ArrowBackIosIcon /></Button>

@@ -31,7 +31,7 @@ function NewSubject(props) {
                 'Content-Type': 'application/json'
             },
             method: 'POST',
-            body: JSON.stringify({ "subjectName": subjectTitle })
+            body: JSON.stringify({ "subjectTitle": subjectTitle })
         })
             .then(res => res.json())
             .then(data => {

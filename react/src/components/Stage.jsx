@@ -1,15 +1,11 @@
-import { Form, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import QuestionsBook from './QuestionsBook';
 import MainStage from './MainStage';
 import ClassDep from './ClassDep';
 import { AppBar, Toolbar, IconButton, Typography, Box, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { Link } from 'react-router-dom';
-import MenuIcon from '@mui/icons-material/Menu';
-import WorkspacesIcon from '@mui/icons-material/Workspaces';
-import SchoolIcon from '@mui/icons-material/School';
 import { API_BASE_URL } from './apiUrls';
 import { StageContext } from '../contexts/StageContext';
+import MainMenu from './MainMenu';
 //import {StudentsContext} from '../contexts/StudentsContext';
 
 function Stage() {
@@ -83,10 +79,8 @@ function Stage() {
   return (
     <Box>
       <AppBar position="static" sx={{ backgroundColor: '#1C2536' }} className='p-2' >
-        <Toolbar>
-          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}><MenuIcon /></IconButton>
-          <IconButton component={Link} to={"/"} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}> <WorkspacesIcon /> </IconButton>
-          <IconButton component={Link} to={"/classes"} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}> <SchoolIcon /> </IconButton>
+        <Toolbar>    
+          <MainMenu />    
           <FormControl sx={{ flexGrow: 1 }} size='normal'>
             <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Предмет</InputLabel>
             <Select

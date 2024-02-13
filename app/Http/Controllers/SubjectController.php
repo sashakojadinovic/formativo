@@ -32,8 +32,8 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         $subject = new Subject;
-        if ($request->input('subjectName')) {
-            $subject->title = $request->input('subjectName');
+        if ($request->input('subjectTitle')) {
+            $subject->title = $request->input('subjectTitle');
             $subject->save();
             return response()->json(["status" => "success", "last" => $subject]);
         }

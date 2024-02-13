@@ -7,7 +7,7 @@ import FPrimaryButton from './ui/buttons/FPrimaryButton'
 import { API_BASE_URL } from './apiUrls';
 import { StageContext } from '../contexts/StageContext';
 
-function MainStage(props) {
+function MainStage() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [rate, setRate] = useState(null);
     const [snackOpened, setSnackOpened] = useState(false);

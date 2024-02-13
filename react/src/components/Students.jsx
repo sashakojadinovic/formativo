@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { API_BASE_URL } from './apiUrls';
 import StudentStageBadge from './StudentStageBadge';
-
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import MainMenu from './MainMenu';
 
 function ClassDep(props) {
     const { id } = useParams();
@@ -42,12 +43,13 @@ function ClassDep(props) {
                 <Box sx={{ flexGrow: 1 }}>
                     <AppBar position="static" sx={{ backgroundColor: "#1C2536" }}>
                         <Toolbar>
-                            <SchoolIcon
+                            <MainMenu />
+                            <PeopleAltIcon
                                 size="large"
                                 edge="start"
                                 color="inherit"
                                 aria-label="menu"
-                                sx={{ mr: 2 }}></SchoolIcon> <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                                sx={{ mr: 2 }}></PeopleAltIcon> <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                                 {classDep}
                             </Typography>
                         </Toolbar>
