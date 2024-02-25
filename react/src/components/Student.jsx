@@ -48,7 +48,7 @@ function Student() {
 
   if (student) {
     appbar = (<Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#1C2536" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#4b5052" }}>
         <Toolbar>
         <MainMenu />
           <PersonIcon
@@ -80,7 +80,7 @@ function Student() {
     <TableContainer component={Paper} className='p-5'>
       <Table>
         <TableHead>
-          <TableRow sx={{ backgroundColor: '#1C2536' }}>
+          <TableRow sx={{ backgroundColor: '#a0a8ab' }}>
             <TableCell sx={{color: '#ffffff;', fontWeight: 'bold'}}>Исход</TableCell>
             <TableCell sx={{color: '#ffffff;', fontWeight: 'bold'}}>Питање</TableCell>
             <TableCell sx={{color: '#ffffff;', fontWeight: 'bold'}}>Одговор</TableCell>

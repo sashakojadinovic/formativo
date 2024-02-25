@@ -2,7 +2,6 @@ import Stage from "./components/Stage";
 import Student from "./components/Student";
 import Students from "./components/Students";
 import ClassDeps from "./components/ClassDeps";
-import ClassDep from "./components/ClassDep";
 import {Route, Routes } from "react-router-dom";
 import NewSubject from "./components/NewSubject";
 import NewOutcome from "./components/NewOutcome";

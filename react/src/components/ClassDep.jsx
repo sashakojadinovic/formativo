@@ -13,12 +13,12 @@ function ClassDep(props) {
   if (students) {
     studentsList = students.map(item => {
       return (
-        <StudentStageBadge first_name={item.first_name} last_name={item.last_name} answers_count={item.answers_count} key={item.id} onClick={() => setActiveStudent(item)} color='success' />
+        <StudentStageBadge first_name={item.first_name} last_name={item.last_name} answers_count={item.answers_count} key={item.id} onClick={() => setActiveStudent(item)} color='info' />
       )
     })
     return (
       <>
-        <div className='p-2 grid grid-cols-2 gap-3 mt-8'>
+        <div className='p-2 grid grid-cols-2 gap-3 mt-4'>
           {studentsList}
         </div>
       </>)

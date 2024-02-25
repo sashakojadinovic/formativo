@@ -7,6 +7,7 @@ import { API_BASE_URL } from './apiUrls';
 import StudentStageBadge from './StudentStageBadge';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import MainMenu from './MainMenu';
+import { styled } from '@mui/material/styles';
 
 function ClassDep(props) {
     const { id } = useParams();
@@ -25,14 +26,22 @@ function ClassDep(props) {
 
             })
     }, []);
-
+    const WhiteButton = styled(Button)(({ theme }) => ({
+        color: "#37474f",
+        backgroundColor: "#ffffff",
+        borderColor: "#78909c",
+        '&:hover': {
+          backgroundColor: "#eceff1",
+          borderColor: "#78909c"
+        },
+      }));
     if (students) {
         studentsList = students.map(item => {
             return (
                 <>
 {/*                     <StudentStageBadge component={Link} to={'/student/' + item.id} onClick={() => console.log("OK")} first_name={item.first_name} last_name={item.last_name} key={item.id} color='success' />
                     <span>Test</span> */}
-                    < Button component={Link} to={'/student/' + item.id} key={item.id} color='warning' className='w-full xl:6/12' size='large' variant='outlined' > {item.first_name} {item.last_name} {`(${item.answers_count})`}</Button >
+                    < WhiteButton component={Link} to={'/student/' + item.id} key={item.id} color='warning' className='w-full xl:6/12' size='large' variant='outlined' > {item.first_name} {item.last_name} {`(${item.answers_count})`}</WhiteButton >
 
                 </>
                  
@@ -41,7 +50,7 @@ function ClassDep(props) {
         return (
             <>
                 <Box sx={{ flexGrow: 1 }}>
-                    <AppBar position="static" sx={{ backgroundColor: "#1C2536" }}>
+                    <AppBar position="static" sx={{ backgroundColor: "#4b5052" }}>
                         <Toolbar>
                             <MainMenu />
                             <PeopleAltIcon

@@ -240,8 +240,8 @@ function NewOutcome(props) {
                         {snackOpened === true ? "Подаци су успешно сачувани" : (snackOpened === "error" ? "Догодила се грешка приликом покушаја уписа података у базу" : "")}
                     </Alert>
                 </Snackbar>
-                <AppBar position="static" sx={{ backgroundColor: '#1C2536' }} className='p-2' >
-                    <Toolbar>
+                <AppBar position="static" sx={{ backgroundColor: '#4b5052'}} className='p-2' >
+                    <Toolbar sx={{gap:1}}>
                         <MainMenu />
                         <FormControl sx={{ width: '20%' }} >
                             <InputLabel sx={{ color: '#ffffff' }} id="select-subject-label">Предмет</InputLabel>

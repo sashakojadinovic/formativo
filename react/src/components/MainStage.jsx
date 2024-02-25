@@ -59,12 +59,13 @@ function MainStage() {
                     <Button variant='contained' size='small' color='primary' onClick={() => saveAnswer()}><CloudUploadIcon className='mr-2' fontSize='small' /> Потврди</Button>
                 </DialogActions>
             </Dialog>
-            <Typography sx={{ fontSize: 18, marginTop: 3 }} gutterBottom>
-                Исход: Ученик/ученица је у стању да {activeOutcome ? activeOutcome.description : ""}
-            </Typography>
 
-            <Card className='p-5 mt-2 mb-5'>
-                <Typography  sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+
+            <Card className='p-5 mt-5 mb-5'>
+                <Typography sx={{ fontSize: 16}} gutterBottom>
+                    Исход: Ученик/ученица је у стању да {activeOutcome ? activeOutcome.description : ""}
+                </Typography>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     Предложена питања:
                 </Typography>
                 {activeOutcome && activeOutcome.questions.length > 0
@@ -75,7 +76,7 @@ function MainStage() {
                         onChange={handleChange}
                     >
                         {activeOutcome.questions.map((question, index) =>
-                            <FormControlLabel key={index} value={question.pivot.question_id} control={<Radio />} label={question.description} />)}
+                            <FormControlLabel key={index} value={question.pivot.question_id} control={<Radio />} label={<Typography sx={{ fontSize: 14 }}>{question.description}</Typography>} />)}
 
                     </RadioGroup>
 
@@ -86,7 +87,7 @@ function MainStage() {
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     Ученик:
                 </Typography>
-                <p>{activeStudent ? activeStudent.first_name + " " + activeStudent.last_name : ""}</p>
+                <Typography sx={{ fontSize: 14 }}>{activeStudent ? activeStudent.first_name + " " + activeStudent.last_name : ""}</Typography>
             </Card>
             <Accordion key={1} >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>

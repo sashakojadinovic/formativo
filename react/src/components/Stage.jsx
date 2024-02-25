@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import QuestionsBook from './QuestionsBook';
 import MainStage from './MainStage';
 import ClassDep from './ClassDep';
-import { AppBar, Toolbar, IconButton, Typography, Box, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Box, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { API_BASE_URL } from './apiUrls';
 import { StageContext } from '../contexts/StageContext';
 import MainMenu from './MainMenu';
+import logo from '../assets/img/logo_dark.svg';
 //import {StudentsContext} from '../contexts/StudentsContext';
 
 function Stage() {
@@ -78,8 +79,9 @@ function Stage() {
 
   return (
     <Box>
-      <AppBar position="static" sx={{ backgroundColor: '#1C2536' }} className='p-2' >
-        <Toolbar>    
+      <AppBar position="static" sx={{ backgroundColor: '#4b5052'}} className='p-2' >
+        <Toolbar sx={{gap:1}}>  
+
           <MainMenu />    
           <FormControl sx={{ flexGrow: 1 }} size='normal'>
             <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Предмет</InputLabel>
@@ -95,7 +97,7 @@ function Stage() {
               {subjectsList}
             </Select>
           </FormControl>
-          {activeSubject !== "" ? <FormControl sx={{ flexGrow: 4, margin: '0 15px' }} size='normal'>
+          {activeSubject !== "" ? <FormControl sx={{ flexGrow: 4 }} size='normal'>
             <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Тема</InputLabel>
             <Select
               variant='outlined'
@@ -110,7 +112,7 @@ function Stage() {
             </Select>
           </FormControl> : ""
           }
-          {classDeps ? <FormControl sx={{ flexGrow: 1, margin: '0 15px' }} size='normal' >
+          {classDeps ? <FormControl sx={{ flexGrow: 1 }} size='normal' >
             <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Одељење</InputLabel>
             <Select
               variant='outlined'
@@ -128,19 +130,19 @@ function Stage() {
         </Toolbar>
       </AppBar>
       <Grid container >
-        <Grid item xs={3} xl={3} sx={{ backgroundColor: '#303c53', height: '100vh' }} >
+        <Grid item xs={3} xl={3} sx={{ backgroundColor: '#eceff1', height: '100vh' }} >
           <StageContext.Provider value={{ activeThemeId, setActiveOutcome }}>
             <QuestionsBook />
           </StageContext.Provider>
 
         </Grid>
-        <Grid item xs={6} xl={6} sx={{ backgroundColor: '#F9F9F9' }}>
+        <Grid item xs={6} xl={6} sx={{ backgroundColor: '#eceff1' }}>
           <StageContext.Provider value={{ activeStudent, activeOutcome }}>
             <MainStage />
           </StageContext.Provider>
 
         </Grid>
-        <Grid item xs={3} xl={3} sx={{ backgroundColor: '#303c53', height: '100vh' }}>
+        <Grid item xs={3} xl={3} sx={{ backgroundColor: '#eceff1', height: '100vh' }}>
           <StageContext.Provider value={{ students, setStudents, setActiveStudent }}>
             <ClassDep />
           </StageContext.Provider>
