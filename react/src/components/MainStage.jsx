@@ -1,11 +1,13 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import GradeIcon from '@mui/icons-material/Grade';
 import { Container, Box, Card, Dialog, DialogActions, Typography, Button, DialogContent, Snackbar, Alert, RadioGroup, FormControlLabel, Radio, TextField, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import FPrimaryButton from './ui/buttons/FPrimaryButton'
 import { API_BASE_URL } from './apiUrls';
 import { StageContext } from '../contexts/StageContext';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 function MainStage() {
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -14,6 +16,7 @@ function MainStage() {
     const [choosenQuestion, setChoosenQuestion] = useState("");
     const [comment, setComment] = useState("");
     const [recommendation, setRecommendation] = useState("");
+    const [studentStatistics, setStudentStatistics] = useState({ accomplished: 10, partially: 20, unaccomplished: 30 });
 
     const { activeStudent, activeOutcome } = useContext(StageContext);
     const saveAnswer = () => {
@@ -40,7 +43,35 @@ function MainStage() {
                 }
             })
     }
+    useEffect(() => {
+        const countAssesments = (assessmentId) => activeStudent? activeStudent.answers.filter(answer => answer.assessment_id === assessmentId).length:0;
+        setStudentStatistics({ accomplished: countAssesments(3), partially: countAssesments(2), unaccomplished: countAssesments(1) });
+    }, [activeStudent]);
     const handleChange = (e) => setChoosenQuestion(e.target.value);
+    const getAssessmentColor = (outcome) => {
+        if (activeStudent && activeStudent.answers) {
+            const matchingAnswer = activeStudent.answers.find(answer => answer.question.outcomes[0].pivot.outcome_id === outcome.id);
+
+            if (matchingAnswer) {
+                switch (matchingAnswer.assessment_id) {
+                    case 3:
+                        //return '#68b586';
+                        return '#d9ece0';
+                    case 2:
+                        //return '#ffcc29';
+                        return '#fef2c9';
+                    case 1:
+                        //return '#ff8f4d';
+                        return '#fee3d2';
+                    default:
+                        //return '#4b5052';
+                        return '#ffffff';
+                }
+            }
+        }
+
+        return '#ffffff';
+    }
 
     return (
         <Container sx={{ minWidth: 275 }}>
@@ -56,13 +87,13 @@ function MainStage() {
                 </DialogContent>
                 <DialogActions>
                     <Button variant='contained' size='small' color='warning' onClick={() => setDialogOpen(false)}><CloudOffIcon className='mr-2' fontSize='small' /> Поништи</Button>
-                    <Button variant='contained' size='small' color='primary' onClick={() => saveAnswer()}><CloudUploadIcon className='mr-2' fontSize='small' /> Потврди</Button>
+                    <Button variant='contained' size='small' color='success' onClick={() => saveAnswer()}><CloudUploadIcon className='mr-2' fontSize='small' /> Потврди</Button>
                 </DialogActions>
             </Dialog>
 
 
             <Card className='p-5 mt-5 mb-5'>
-                <Typography sx={{ fontSize: 16}} gutterBottom>
+                <Typography sx={{ fontSize: 16, backgroundColor: getAssessmentColor(activeOutcome) }} gutterBottom>
                     Исход: Ученик/ученица је у стању да {activeOutcome ? activeOutcome.description : ""}
                 </Typography>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -83,11 +114,33 @@ function MainStage() {
                     : ""}
             </Card>
 
-            <Card className='p-5 mt-5 mb-5'>
+            <Card className='p-5 mt-5 mb-5' sx={{ borderLeft: '4px solid ' + (getAssessmentColor(activeOutcome) === '#ffffff' ? '#4b5052' : getAssessmentColor(activeOutcome)) }}>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     Ученик:
                 </Typography>
-                <Typography sx={{ fontSize: 14 }}>{activeStudent ? activeStudent.first_name + " " + activeStudent.last_name : ""}</Typography>
+                <Typography sx={{ fontSize: 18 }}>{activeStudent ? activeStudent.first_name + " " + activeStudent.last_name : ""}</Typography>
+                                {activeStudent ? (<PieChart
+ 
+                    series={[
+                        {
+                            data: [
+                                { id: 0, value: studentStatistics.accomplished, label: 'Остварено: ' + studentStatistics.accomplished, color: '#68b586' },
+                                { id: 1, value: studentStatistics.partially, label: 'Делимично: ' + studentStatistics.partially, color: '#ffcc29' },
+                                { id: 2, value: studentStatistics.unaccomplished, label: 'Неостварено: ' + studentStatistics.unaccomplished, color: '#ff8f4d' },
+                            ],
+                            innerRadius: 25,
+                            outerRadius: 75,
+                            paddingAngle: 0,
+                            cornerRadius: 5,
+                            startAngle: 0,
+                            endAngle: 360,
+                            cx: 70,
+                            cy: 90,
+                        },
+                    ]}
+                    width={360}
+                    height={180}
+                />):''}
             </Card>
             <Accordion key={1} >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -113,10 +166,11 @@ function MainStage() {
             </Accordion>
 
             <Box className='flex justify-end pt-10 gap-1'>
+                <FPrimaryButton startIcon={<GradeIcon sx={{ color: '#ff8f4d' }} />} onClick={() => { setRate(1); setDialogOpen(true) }} variant='outlined' >Лоше</FPrimaryButton>
+                <FPrimaryButton startIcon={<GradeIcon sx={{ color: '#ffcc29' }} />} onClick={() => { setRate(2); setDialogOpen(true) }} variant='outlined' >Делимично</FPrimaryButton>
+                <FPrimaryButton startIcon={<GradeIcon sx={{ color: '#68b586' }} />} onClick={() => { setRate(3); setDialogOpen(true) }} variant='outlined' >Добро</FPrimaryButton>
 
-                <FPrimaryButton onClick={() => { setRate(3); setDialogOpen(true) }} variant='contained' color='primary'>Добро</FPrimaryButton>
-                <FPrimaryButton onClick={() => { setRate(2); setDialogOpen(true) }} variant='contained' color='primary'>Делимично</FPrimaryButton>
-                <FPrimaryButton onClick={() => { setRate(1); setDialogOpen(true) }} variant='contained' color='primary'>Лоше</FPrimaryButton>
+
 
             </Box>
 

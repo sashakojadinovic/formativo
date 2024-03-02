@@ -1,31 +1,46 @@
-
 .MuiTreeItem-content {
-    align-items:flex-start !important;
-    padding: 4px 8px !important;
-    border-radius: 5px !important;
+  align-items: flex-start !important;
+  padding: 4px 8px !important;
+  border-radius: 5px !important;
 }
-.MuiTreeItem-label{
-  font-size:.875rem !important;
-}
-.Mui-selected {
-    background-color: #efefef !important;
-  }
-  .MuiSelect-outlined.MuiInputBase-input  {
-    background-color: #51585a !important;
-  }
-  .MuiSelect-select	.action-buttons {
-    display:none;
-  }
-  .MuiTreeItem-root {
-    color: #333;
-    margin: 0 !important;
-  }
-  .MuiTreeItem-iconContainer svg {
-    font-size: 1.25rem !important;
-   
-  }
 
-  .MuiDrawer-paperAnchorLeft{
-    background-color: #4b5052   !important	;
-    color: #eceff1 !important;
-  }
+.MuiTreeItem-label {
+  font-size: .875rem !important;
+}
+
+.Mui-selected {
+  background-color: transparent !important;
+}
+
+.MuiSelect-outlined.MuiInputBase-input {
+  background-color: #51585a !important;
+}
+
+.MuiSelect-select .action-buttons {
+  display: none;
+}
+
+.MuiTreeItem-root {
+  color: #333;
+  margin: 0 !important;
+}
+
+.MuiTreeItem-iconContainer svg {
+  font-size: 1.25rem !important;
+
+}
+
+.MuiDrawer-paperAnchorLeft {
+  background-color: #4b5052 !important;
+  color: #eceff1 !important;
+}
+.MuiTableCell-sizeSmall{
+  padding:10px !important;
+}
+.MuiListItem-root {
+  border-bottom: 1px solid #404547;
+}
+
+.MuiChartsLegend-series text {
+  font-size: 14px !important;
+} 

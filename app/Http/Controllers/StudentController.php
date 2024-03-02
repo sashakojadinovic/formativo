@@ -40,7 +40,7 @@ class StudentController extends Controller
     public function show(string $id)
     {
         $student = Student::find($id);
-        $answers = $student->answers()->with('question.outcomes')->get();
+        $answers = $student->answers()->with('question.outcomes.unit.theme')->get();
         $formattedAnswers = $answers->map(function ($answer) {
             $answer->date = $answer->created_at->format('d.m.Y. H:i:s');
         });

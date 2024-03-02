@@ -6,7 +6,6 @@ import { AppBar, Toolbar, Box, Button, Grid, FormControl, InputLabel, Select, Me
 import { API_BASE_URL } from './apiUrls';
 import { StageContext } from '../contexts/StageContext';
 import MainMenu from './MainMenu';
-import logo from '../assets/img/logo_dark.svg';
 //import {StudentsContext} from '../contexts/StudentsContext';
 
 function Stage() {
@@ -36,7 +35,6 @@ function Stage() {
 
   //Load All Classes
   useEffect(() => {
-    //const url = "http://192.168.0.101:8000/api/class_dep"
     const url = API_BASE_URL + "/api/class_dep";
     fetch(url)
       .then(res => res.json())
@@ -58,7 +56,7 @@ function Stage() {
       method: 'GET'
     })
       .then(res => res.json())
-      .then(data => { console.log(data); setActiveSubject(e.target.value); setThemes(data.themes) });
+      .then(data => { setActiveSubject(e.target.value); setThemes(data.themes) });
 
   }
 
@@ -79,10 +77,10 @@ function Stage() {
 
   return (
     <Box>
-      <AppBar position="static" sx={{ backgroundColor: '#4b5052'}} className='p-2' >
-        <Toolbar sx={{gap:1}}>  
+      <AppBar position="static" sx={{ backgroundColor: '#4b5052' }} className='p-2' >
+        <Toolbar sx={{ gap: 1 }}>
 
-          <MainMenu />    
+          <MainMenu />
           <FormControl sx={{ flexGrow: 1 }} size='normal'>
             <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Предмет</InputLabel>
             <Select
@@ -131,7 +129,7 @@ function Stage() {
       </AppBar>
       <Grid container >
         <Grid item xs={3} xl={3} sx={{ backgroundColor: '#eceff1', height: '100vh' }} >
-          <StageContext.Provider value={{ activeThemeId, setActiveOutcome }}>
+          <StageContext.Provider value={{ activeThemeId, activeStudent, setActiveOutcome }}>
             <QuestionsBook />
           </StageContext.Provider>
 
@@ -143,7 +141,7 @@ function Stage() {
 
         </Grid>
         <Grid item xs={3} xl={3} sx={{ backgroundColor: '#eceff1', height: '100vh' }}>
-          <StageContext.Provider value={{ students, setStudents, setActiveStudent }}>
+          <StageContext.Provider value={{ students, activeOutcome, setStudents, setActiveStudent }}>
             <ClassDep />
           </StageContext.Provider>
 

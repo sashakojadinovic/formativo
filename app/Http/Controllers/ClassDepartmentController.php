@@ -40,8 +40,8 @@ class ClassDepartmentController extends Controller
     {
         $single_class_dep = ClassDepartment::find($id);
         //$students = $single_class_dep->students()->get();
-        //$students = ClassDepartment::find($id)->students()->with('answers.question.outcomes')->get();
-        $students = $single_class_dep->students()->withCount('answers')->get();
+        $students = ClassDepartment::find($id)->students()->with('answers.question.outcomes')->withCount('answers')->get();
+        //$students = $single_class_dep->students()->withCount('answers')->get();
         
         $class = ["class_name"=>$single_class_dep->name, "students"=>$students,];
         return response()->json($class);

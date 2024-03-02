@@ -11,7 +11,6 @@ const StudentStageBadge = (props) => {
           backgroundColor: "#efefef",
         },
       }));
-    const [score, setScore] = useState(0);
     const [answersCount, setAnswersCount] = useState(0);
 
     /*     if (score > 0) {
@@ -28,8 +27,8 @@ const StudentStageBadge = (props) => {
 
     return (
         <Badge color="secondary"  badgeContent={props.answers_count ? props.answers_count : 0}  >
-            <Card >
-            <WhiteButton sx={{ textTransform: 'capitalize', lineHeight: '1.25rem' }} onClick={() => { props.onClick(); console.log(score); setScore(score + 1) }} color={props.color} size='normal' fullWidth variant='text' >{props.first_name}<br />{props.last_name}</WhiteButton>
+            <Card sx={{borderLeft:`5px solid ${props.status}`}} >
+            <WhiteButton sx={{ textTransform: 'capitalize', lineHeight: '1.25rem' }} onClick={() => { props.onClick(); }} color={props.color} size='normal' fullWidth variant='text' >{props.first_name}<br />{props.last_name}</WhiteButton>
         </Card></Badge>)
 
 

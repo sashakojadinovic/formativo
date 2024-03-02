@@ -1,12 +1,14 @@
 import { Button } from "@mui/material";
 import { styled } from '@mui/system';
 const FPrimaryButton = styled(Button)({
-    backgroundColor: '#455a64 ',
-    textTransform: 'none',
+    backgroundColor: '#ffffff',
+    color: '#37474f',
+    borderColor: '#9cb2bd',
+    textTransform: 'capitalize',
     '&:hover': {
-        backgroundColor: "#263238",
-      },
-
+        backgroundColor: 'transparent',
+        borderColor: '#78909c'
+    }
 });
 
 export default FPrimaryButton;
