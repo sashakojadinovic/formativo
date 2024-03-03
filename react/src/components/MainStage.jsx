@@ -13,13 +13,15 @@ function MainStage() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [rate, setRate] = useState(null);
     const [snackOpened, setSnackOpened] = useState(false);
-    const [choosenQuestion, setChoosenQuestion] = useState("");
+    const [choosenQuestion, setChoosenQuestion] = useState(null);
     const [comment, setComment] = useState("");
     const [recommendation, setRecommendation] = useState("");
     const [studentStatistics, setStudentStatistics] = useState({ accomplished: 10, partially: 20, unaccomplished: 30 });
 
     const { activeStudent, activeOutcome } = useContext(StageContext);
     const saveAnswer = () => {
+        //setDialogOpen(false);
+        //console.log({ studentId: activeStudent.id, questionId: choosenQuestion, assessmentId: rate, comment: comment, recommendation: recommendation });
         const postUrl = API_BASE_URL + "/api/answer";
         fetch(postUrl, {
             headers: {
@@ -32,6 +34,7 @@ function MainStage() {
             .then(res => res.json())
             .then(data => {
                 setDialogOpen(false);
+                console.log(data);
                 if (data.status === "success") {
 
                     setComment("");
@@ -41,14 +44,16 @@ function MainStage() {
                 else {
                     setSnackOpened('error');
                 }
-            })
+            });
     }
     useEffect(() => {
-        const countAssesments = (assessmentId) => activeStudent? activeStudent.answers.filter(answer => answer.assessment_id === assessmentId).length:0;
+        const countAssesments = (assessmentId) => activeStudent ? activeStudent.answers.filter(answer => answer.assessment_id === assessmentId).length : 0;
         setStudentStatistics({ accomplished: countAssesments(3), partially: countAssesments(2), unaccomplished: countAssesments(1) });
     }, [activeStudent]);
     const handleChange = (e) => setChoosenQuestion(e.target.value);
+
     const getAssessmentColor = (outcome) => {
+
         if (activeStudent && activeStudent.answers) {
             const matchingAnswer = activeStudent.answers.find(answer => answer.question.outcomes[0].pivot.outcome_id === outcome.id);
 
@@ -75,7 +80,7 @@ function MainStage() {
 
     return (
         <Container sx={{ minWidth: 275 }}>
-            <Snackbar open={snackOpened} autoHideDuration={6000} onClose={() => setSnackOpened(false)}>
+            <Snackbar open={snackOpened?true:false} autoHideDuration={6000} onClose={() => setSnackOpened(false)}>
                 <Alert onClose={() => setSnackOpened(false)} severity={snackOpened === "success" ? "success" : (snackOpened === "error" ? "error" : "info")} sx={{ width: '100%' }}>
                     {snackOpened === "success" ? "Подаци су успешно сачувани" : (snackOpened === "error" ? "Догодила се грешка приликом покушаја уписа података у базу" : "")}
                 </Alert>
@@ -93,25 +98,36 @@ function MainStage() {
 
 
             <Card className='p-5 mt-5 mb-5'>
-                <Typography sx={{ fontSize: 16, backgroundColor: getAssessmentColor(activeOutcome) }} gutterBottom>
-                    Исход: Ученик/ученица је у стању да {activeOutcome ? activeOutcome.description : ""}
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            Исход:
+                        </Typography>
+                <Typography sx={{ fontSize: 16, backgroundColor: getAssessmentColor(activeOutcome), display:'inline' }} gutterBottom>
+                    Ученик/ученица је у стању да {activeOutcome ? activeOutcome.description : ""}
                 </Typography>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    Предложена питања:
-                </Typography>
-                {activeOutcome && activeOutcome.questions.length > 0
-                    ?
-                    <RadioGroup
-                        value={choosenQuestion}
-                        name="radio-buttons-group"
-                        onChange={handleChange}
-                    >
-                        {activeOutcome.questions.map((question, index) =>
-                            <FormControlLabel key={index} value={question.pivot.question_id} control={<Radio />} label={<Typography sx={{ fontSize: 14 }}>{question.description}</Typography>} />)}
+                <Accordion key={1} >
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            Предложена питања:
+                        </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        {activeOutcome && activeOutcome.questions.length > 0
+                            ?
+                            <RadioGroup
+                                value={choosenQuestion}
+                                name="radio-buttons-group"
+                                onChange={handleChange}
+                            >
+                                {activeOutcome.questions.map((question, index) =>
+                                    <FormControlLabel key={index} value={question.pivot.question_id} control={<Radio />} label={<Typography sx={{ fontSize: 14 }}>{question.description}</Typography>} />)}
 
-                    </RadioGroup>
+                            </RadioGroup>
 
-                    : ""}
+                            : ""}
+                    </AccordionDetails>
+                </Accordion>
+
+
             </Card>
 
             <Card className='p-5 mt-5 mb-5' sx={{ borderLeft: '4px solid ' + (getAssessmentColor(activeOutcome) === '#ffffff' ? '#4b5052' : getAssessmentColor(activeOutcome)) }}>
@@ -119,8 +135,8 @@ function MainStage() {
                     Ученик:
                 </Typography>
                 <Typography sx={{ fontSize: 18 }}>{activeStudent ? activeStudent.first_name + " " + activeStudent.last_name : ""}</Typography>
-                                {activeStudent ? (<PieChart
- 
+                {activeStudent ? (<PieChart tooltip={{ trigger: 'none' }}
+
                     series={[
                         {
                             data: [
@@ -128,6 +144,8 @@ function MainStage() {
                                 { id: 1, value: studentStatistics.partially, label: 'Делимично: ' + studentStatistics.partially, color: '#ffcc29' },
                                 { id: 2, value: studentStatistics.unaccomplished, label: 'Неостварено: ' + studentStatistics.unaccomplished, color: '#ff8f4d' },
                             ],
+                            highlightScope: { faded: 'global', highlighted: 'item' },
+                            faded: { innerRadius: 25, additionalRadius: -25, color: 'gray' },
                             innerRadius: 25,
                             outerRadius: 75,
                             paddingAngle: 0,
@@ -140,7 +158,7 @@ function MainStage() {
                     ]}
                     width={360}
                     height={180}
-                />):''}
+                />) : ''}
             </Card>
             <Accordion key={1} >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>

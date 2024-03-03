@@ -1,4 +1,4 @@
-import { Box, AppBar, Toolbar, Typography, Paper, FormControl, Select, MenuItem, InputLabel, TableContainer, Table, TableRow, TableHead, TableCell, TableBody, IconButton, Button } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, Paper, FormControl, Select, MenuItem, InputLabel, TableContainer, Table, TableRow, TableHead, TableCell, TableBody, IconButton, Button, Card } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonIcon from '@mui/icons-material/Person';
@@ -10,15 +10,18 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { API_BASE_URL } from './apiUrls';
 import MainMenu from './MainMenu';
-import Person from '@mui/icons-material/Person';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 function Student() {
   const { id } = useParams();
   const nextStudentId = Number(id) + 1;
+
   const [student, setStudent] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [activeTheme, setActiveTheme] = useState(-1);
   const [uniqueThemesList, setUniqueThemesList] = useState(null);
+  const [filteredAnswers, setFilteredAnswers] = useState(null);
+  const [studentStatistics, setStudentStatistics] = useState({ accomplished: 10, partially: 20, unaccomplished: 30 });
 
   useEffect(() => {
     const url = API_BASE_URL + "/api/student/" + id
@@ -27,37 +30,33 @@ function Student() {
       .then(data => {
         setStudent(data.student);
         setAnswers(data.answers);
-        // ostatak koda 
+        setFilteredAnswers(data.answers);
+        setActiveTheme(-1);
 
       });
 
   }, [id]);
   useEffect(() => {
-   /*  let themes = [];
-    answers ? answers.forEach((answer) => {
-      themes.push(answer.question.outcomes[0].unit.theme);
-    }) : '';
-    const uniqueThemes = [...new Set(themes)];
-    console.log(uniqueThemes);
-    setUniqueThemesList(uniqueThemes.map((theme) => <MenuItem key={theme.id} value={theme.id}>{theme.title}</MenuItem>)); */
-    if(answers){
-    const uniqueAnswers = answers.reduce((uniqueArray, answer) => {
-      const seenOutcomes = new Set([...uniqueArray.map(obj => obj.question.outcomes[0].unit.theme.id)]); 
-    
-      if (!seenOutcomes.has(answer.question.outcomes[0].unit.theme.id)) {
-        uniqueArray.push(answer); 
-      }
-      seenOutcomes.add(answer.question.outcomes[0].unit.theme.id); 
-    
-      return uniqueArray; 
-    }, []); 
-    
-    console.log(uniqueAnswers); 
-    setUniqueThemesList(uniqueAnswers.map((answer) => <MenuItem key={answer.question.outcomes[0].unit.theme.id} value={answer.question.outcomes[0].unit.theme.id}>{answer.question.outcomes[0].unit.theme.title}</MenuItem>));
-   
-  }
-    
-  }, [student]);
+    if (answers) {
+      const uniqueAnswers = answers.reduce((uniqueArray, answer) => {
+        const seenOutcomes = new Set([...uniqueArray.map(obj => obj.question.outcomes[0].unit.theme.id)]);
+
+        if (!seenOutcomes.has(answer.question.outcomes[0].unit.theme.id)) {
+          uniqueArray.push(answer);
+        }
+        seenOutcomes.add(answer.question.outcomes[0].unit.theme.id);
+
+        return uniqueArray;
+      }, []);
+
+
+      setUniqueThemesList(uniqueAnswers.map((answer) => <MenuItem key={answer.question.outcomes[0].unit.theme.id} value={answer.question.outcomes[0].unit.theme.id}>{answer.question.outcomes[0].unit.theme.title}</MenuItem>));
+      console.log(student);
+      const countAssesments = (assessmentId) => filteredAnswers ? filteredAnswers.filter(answer => answer.assessment_id === assessmentId).length : 0;
+      setStudentStatistics({ accomplished: countAssesments(3), partially: countAssesments(2), unaccomplished: countAssesments(1) });
+    }
+
+  }, [student, activeTheme]);
   const deleteAnswer = (idToDelete) => {
     fetch(API_BASE_URL + '/api/answer/' + idToDelete, {
       headers: {
@@ -73,32 +72,6 @@ function Student() {
         }
       });
   }
-  let appbar = "Loading";
-
-  if (student) {
-    appbar = (<Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#4b5052" }}>
-        <Toolbar>
-          <MainMenu />
-          <PersonIcon
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}></PersonIcon> <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {student.first_name} {student.last_name}
-          </Typography>
-          <Button color='inherit' component={Link} to={'/student/' + (id - 1)} aria-label="едит"> <ArrowBackIosIcon /></Button>
-          <Button color='inherit' component={Link} to={'/student/' + nextStudentId} aria-label="едит"> <ArrowForwardIosIcon /></Button>
-        </Toolbar>
-      </AppBar>
-
-    </Box >)
-  }
-  else {
-    appbar = ('Loading...')
-  }
-
   const assesmentColor = '#ffffff';
   const getAssesmentColor = (assessment_id) => {
 
@@ -115,31 +88,79 @@ function Student() {
   }
   const changeTheme = (e) => {
     setActiveTheme(e.target.value);
+    e.target.value !== -1 ? setFilteredAnswers(answers.filter(answer => answer.question.outcomes[0].unit.theme.id === e.target.value)) : setFilteredAnswers(answers);
   }
-  return (<>{appbar}
+  return (<Box><AppBar position="static" sx={{ backgroundColor: "#4b5052" }} className='p-2'>
+    <Toolbar>
+      <MainMenu />
+      <FormControl size='normal' sx={{minWidth:'300px'}} >
+        <InputLabel  sx={{ color: '#ffffff' }} id="select-theme-label">Тема</InputLabel>
+        <Select
+          variant='outlined'
+          sx={{ color: '#ffffff' }}
+          labelId="select-theme"
+          id="select-theme"
+          value={activeTheme}
+          label="Тема"
+          onChange={changeTheme}
+        >
+          <MenuItem value={-1}>Све теме</MenuItem>
+          {uniqueThemesList}
+        </Select>
+      </FormControl>
+      <Box sx={{ flexGrow: 2, display:'flex', justifyContent:'end', alignItems:'center', gap:'5px' }} >
+         <PersonIcon
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{ mr: 2 }}></PersonIcon> {student ? <Typography variant="h6" component="div">
+           {student.first_name} {student.last_name} 
+        </Typography> : ''}
+        <Button size='large' color='inherit' component={Link} to={`/class/${student? student.class_department.id:"1"}` } aria-label="одељење" className='ms-2'><Typography variant="h6">{student? student.class_department.name:''}</Typography></Button>
+      </Box>
+     
+      
+      <Button color='inherit' component={Link} to={'/student/' + (id - 1)} aria-label="едит"> <ArrowBackIosIcon /></Button>
+      <Button color='inherit' component={Link} to={'/student/' + nextStudentId} aria-label="едит"> <ArrowForwardIosIcon /></Button>
+    </Toolbar>
+  </AppBar>
     {/* <Snackbar open={snackOpened} autoHideDuration={6000} onClose={() => setSnackOpened(false)}>
       <Alert onClose={() => setSnackOpened(false)} severity={snackOpened === "success" ? "success" : (snackOpened === "error" ? "error" : "")} sx={{ width: '100%' }}>
         {snackOpened === "success" ? "Подаци су успешно сачувани" : (snackOpened === "error" ? "Догодила се грешка приликом покушаја уписа података у базу" : "")}
       </Alert>
     </Snackbar> */}
+    <Card sx={{ paddingLeft: '20px' }}>
 
+      {student ? (<PieChart
+
+        series={[
+          {
+            data: [
+              { id: 0, value: studentStatistics.accomplished, label: 'Остварено: ' + studentStatistics.accomplished, color: '#68b586' },
+              { id: 1, value: studentStatistics.partially, label: 'Делимично: ' + studentStatistics.partially, color: '#ffcc29' },
+              { id: 2, value: studentStatistics.unaccomplished, label: 'Неостварено: ' + studentStatistics.unaccomplished, color: '#ff8f4d' },
+            ],
+            highlightScope: { faded: 'global', highlighted: 'item' },
+            faded: { innerRadius: 25, additionalRadius: -25, color: 'gray' },
+            innerRadius: 25,
+            outerRadius: 75,
+            paddingAngle: 0,
+            cornerRadius: 5,
+            startAngle: 0,
+            endAngle: 360,
+            cx: 70,
+            cy: 90,
+          },
+        ]}
+        width={360}
+        height={180}
+      />) : ''}
+
+    </Card>
     <TableContainer component={Paper} className='p-5'>
-      <FormControl variant='standard' sx={{ m: 1, minWidth: 300 }}>
-        <InputLabel id="demo-simple-select-label">Тема</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={activeTheme}
-          label="Тема"
-          onChange={changeTheme}
-        >
-          {/* <MenuItem value={-1}>Све теме</MenuItem>
-          <MenuItem value={2}>Угљоводоници</MenuItem>
-          <MenuItem value={3}>Једињења са кисеоником</MenuItem> */}
-          <MenuItem value={-1}>Све теме</MenuItem>
-          {uniqueThemesList}
-        </Select>
-      </FormControl>
+
+
       <Table size="small">
         <TableHead>
           <TableRow sx={{ backgroundColor: '#a0a8ab' }}>
@@ -151,16 +172,16 @@ function Student() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {answers ? answers.map(answer => (
-           answer.question.outcomes[0].unit.theme.id==activeTheme || activeTheme===-1?
-            <TableRow key={answer.id} sx={{ backgroundColor: getAssesmentColor(answer.assessment_id) }}>
-              <TableCell component="td" scope="row">{answer.question.outcomes[0].description}</TableCell>
-              <TableCell component="td" scope="row">{answer.question.description}</TableCell>
-              {/*               <TableCell component="td" scope="row">{answer.assessment_id}</TableCell> */}
-              <TableCell component="td" scope="row">{answer.date}</TableCell>
-              <TableCell sx={{ minWidth: '100px' }} component="td" scope="row"><IconButton onClick={() => console.log("OK")} aria-label="едит"> <EditNoteIcon /></IconButton><IconButton onClick={() => deleteAnswer(answer.id)} aria-label="delete"> <DeleteIcon /></IconButton></TableCell>
+          {filteredAnswers ? filteredAnswers.map(answer => (
+            answer.question.outcomes[0].unit.theme.id === activeTheme || activeTheme === -1 ?
+              <TableRow key={answer.id} sx={{ backgroundColor: getAssesmentColor(answer.assessment_id) }}>
+                <TableCell component="td" scope="row">{answer.question.outcomes[0].description}</TableCell>
+                <TableCell component="td" scope="row">{answer.question.description}</TableCell>
+                {/*               <TableCell component="td" scope="row">{answer.assessment_id}</TableCell> */}
+                <TableCell component="td" scope="row">{answer.date}</TableCell>
+                <TableCell sx={{ minWidth: '100px' }} component="td" scope="row"><IconButton onClick={() => console.log("OK")} aria-label="едит"> <EditNoteIcon /></IconButton><IconButton onClick={() => deleteAnswer(answer.id)} aria-label="delete"> <DeleteIcon /></IconButton></TableCell>
 
-            </TableRow>:''
+              </TableRow> : ''
 
           )) : <TableRow>
             <TableCell component="td" scope="row">#</TableCell>
@@ -173,7 +194,9 @@ function Student() {
       </Table>
 
     </TableContainer>
-  </>)
+
+
+  </Box>)
 }
 
 export default Student

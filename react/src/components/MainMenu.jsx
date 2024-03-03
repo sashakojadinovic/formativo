@@ -85,7 +85,7 @@ export default function MainMenu() {
 
             <MenuIcon />
           </IconButton>
-          <Avatar variant='square'  src={logo} sx={{display:'inline-block', marginRight: '15px'}} />
+          <Avatar variant='square'  src={logo} sx={{display:'inline-block', marginRight: '15px', width:'auto', height: '35px'}} />
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}

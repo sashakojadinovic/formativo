@@ -20,7 +20,8 @@ function Stage() {
   const [students, setStudents] = useState([]);
 
   const subjectsUrl = API_BASE_URL + "/api/subject";
-  //Load Subject list
+
+  //Load All Classes
   useEffect(() => {
     fetch(subjectsUrl, {
       headers: {
@@ -31,10 +32,6 @@ function Stage() {
     })
       .then(res => res.json())
       .then(data => setSubjects(data));
-  }, []);
-
-  //Load All Classes
-  useEffect(() => {
     const url = API_BASE_URL + "/api/class_dep";
     fetch(url)
       .then(res => res.json())
@@ -82,7 +79,7 @@ function Stage() {
 
           <MainMenu />
           <FormControl sx={{ flexGrow: 1 }} size='normal'>
-            <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Предмет</InputLabel>
+            <InputLabel sx={{ color: '#ffffff' }} id="subject-select-label">Предмет</InputLabel>
             <Select
               variant='outlined'
               sx={{ color: '#ffffff' }}
@@ -96,7 +93,7 @@ function Stage() {
             </Select>
           </FormControl>
           {activeSubject !== "" ? <FormControl sx={{ flexGrow: 4 }} size='normal'>
-            <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Тема</InputLabel>
+            <InputLabel sx={{ color: '#ffffff' }} id="theme-select-label">Тема</InputLabel>
             <Select
               variant='outlined'
               sx={{ color: '#ffffff' }}
@@ -110,7 +107,7 @@ function Stage() {
             </Select>
           </FormControl> : ""
           }
-          {classDeps ? <FormControl sx={{ flexGrow: 1 }} size='normal' >
+          {classDeps && activeThemeId!==null ? <FormControl sx={{ flexGrow: 1 }} size='normal' >
             <InputLabel sx={{ color: '#ffffff' }} id="demo-simple-select-label">Одељење</InputLabel>
             <Select
               variant='outlined'

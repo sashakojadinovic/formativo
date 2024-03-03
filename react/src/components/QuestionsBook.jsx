@@ -20,7 +20,7 @@ const QuestionsBook = (props) => {
   const getStarColor = (outcome) => {
     if (activeStudent && activeStudent.answers) {
       const matchingAnswer = activeStudent.answers.find(answer => answer.question.outcomes[0].pivot.outcome_id === outcome.id);
-  
+
       if (matchingAnswer) {
         switch (matchingAnswer.assessment_id) {
           case 3:
@@ -38,7 +38,7 @@ const QuestionsBook = (props) => {
         }
       }
     }
-  
+
     return '#ffffff';
   }
 
@@ -51,14 +51,14 @@ const QuestionsBook = (props) => {
         setThemeTitle(data.title);
         setThemeUnits(data.units);
       })
-  }, [activeThemeId])
+  }, [activeThemeId]);
   const renderTree = (units) => (
     units.map((unit, index) =>
-    (<TreeItem disabled={unit.outcomes.length < 1} sx={{ padding: '5px 20px' }} collapseIcon={<ArrowDownwardIcon sx={{ color: '#4b5052' }} />}  expandIcon={<ArrowOutwardIcon  />} key={index} nodeId={unit.id.toString()} label={index + 1 + ". " + unit.title} >
+    (<TreeItem disabled={unit.outcomes.length < 1} sx={{ padding: '5px 20px' }} collapseIcon={<ArrowDownwardIcon sx={{ color: '#4b5052' }} />} expandIcon={<ArrowOutwardIcon />} key={index} nodeId={unit.id.toString()} label={index + 1 + ". " + unit.title} >
       <Typography sx={{ fontStyle: 'italic', fontSize: '14px', color: '#767e81' }}>Ученик/ученица ће бити у стању да:</Typography>
       {unit.outcomes.length > 0
         ? unit.outcomes.map((outcome, index) =>
-          <TreeItem icon={<GradeIcon  />} sx={{backgroundColor: getStarColor(outcome), marginBottom: '5px', marginTop: '5px', fontSize: '12px' }} onClick={() => { setActiveOutcome(outcome); }} key={index} nodeId={unit.id + "." + outcome.id.toString()} label={outcome.description}></TreeItem>)
+          <TreeItem icon={<GradeIcon />} sx={{ backgroundColor: getStarColor(outcome), marginBottom: '5px', marginTop: '5px', fontSize: '12px' }} onClick={() => { setActiveOutcome(outcome); }} key={index} nodeId={unit.id + "." + outcome.id.toString()} label={outcome.description}></TreeItem>)
         : ""
       }
     </TreeItem>)

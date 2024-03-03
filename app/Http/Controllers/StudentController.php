@@ -39,8 +39,9 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        $student = Student::find($id);
-        $answers = $student->answers()->with('question.outcomes.unit.theme')->get();
+        //$student = Student::find($id)->with('classDepartment')->where('id',$id)->first();
+        $student = Student::with('classDepartment')->find($id);
+        $answers = Student::find($id)->answers()->with('question.outcomes.unit.theme')->get();
         $formattedAnswers = $answers->map(function ($answer) {
             $answer->date = $answer->created_at->format('d.m.Y. H:i:s');
         });

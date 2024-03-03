@@ -13,8 +13,7 @@ function ClassDep(props) {
   if (students) {
     studentsList = students.map(student => {
       let foundMatchingOutcome = false;
-  
-      student.answers.forEach(answer => {
+        student.answers.forEach(answer => {
         //if (answer.question.outcomes[0].id === activeOutcome.id && !foundMatchingOutcome) {
           if (answer.question.outcomes.some(outcome => outcome.id===activeOutcome.id) && !foundMatchingOutcome) {
           switch (answer.assessment_id) {
@@ -35,9 +34,11 @@ function ClassDep(props) {
           foundMatchingOutcome = true; // Postavi flag na true da prekineš petlju
         }
       });
+      
+      
   
       if (!foundMatchingOutcome) {
-        outcomeStatusColor = "#4b5052";
+        outcomeStatusColor = "#ffffff";
       }
   
       return (
