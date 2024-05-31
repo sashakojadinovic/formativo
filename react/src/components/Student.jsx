@@ -108,7 +108,7 @@ function Student() {
           {uniqueThemesList}
         </Select>
       </FormControl>
-      <Box sx={{ flexGrow: 2, display:'flex', justifyContent:'end', alignItems:'center', gap:'5px' }} >
+      <Box sx={{ flexGrow: 2, display:'flex', justifyContent:'end', alignItems:'center', gap:'10px' }} >
          <PersonIcon
         size="large"
         edge="start"
@@ -117,7 +117,7 @@ function Student() {
         sx={{ mr: 2 }}></PersonIcon> {student ? <Typography variant="h6" component="div">
            {student.first_name} {student.last_name} 
         </Typography> : ''}
-        <Button size='large' color='inherit' component={Link} to={`/class/${student? student.class_department.id:"1"}` } aria-label="одељење" className='ms-2'><Typography variant="h6">{student? student.class_department.name:''}</Typography></Button>
+        <Button sx={{backgroundColor:'#51585a', border:'1px solid #0000003b'}} size='large' color='inherit' component={Link} to={`/class/${student? student.class_department.id:"1"}` } aria-label="одељење" className='ms-2'><Typography variant="h6">{student? student.class_department.name:''}</Typography></Button>
       </Box>
      
       
