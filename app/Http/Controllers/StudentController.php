@@ -43,7 +43,7 @@ class StudentController extends Controller
         $student = Student::with('classDepartment')->find($id);
         $answers = Student::find($id)->answers()->with('question.outcomes.unit.theme')->get();
         $formattedAnswers = $answers->map(function ($answer) {
-            $answer->date = $answer->created_at->format('d.m.Y. H:i:s');
+            $answer->date = $answer->created_at->format('d.m.Y.');
         });
         return response()->json(["student"=>$student, "answers"=>$answers]);
         //return response()->json(["student" => $student, "answers" => $formattedAnswers]);

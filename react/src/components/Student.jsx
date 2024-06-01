@@ -86,6 +86,20 @@ function Student() {
         return assesmentColor;
     }
   }
+  const getAssesmentDescription = (assessment_id) => {
+
+    switch (assessment_id) {
+      case 1:
+        return 'Није у стању да ';
+      case 2:
+        return 'Делимично је у стању да ';
+      case 3:
+        return 'У стању је да ';
+      default:
+        return 'У стању је да ';
+    }
+  }
+
   const changeTheme = (e) => {
     setActiveTheme(e.target.value);
     e.target.value !== -1 ? setFilteredAnswers(answers.filter(answer => answer.question.outcomes[0].unit.theme.id === e.target.value)) : setFilteredAnswers(answers);
@@ -93,8 +107,8 @@ function Student() {
   return (<Box><AppBar position="static" sx={{ backgroundColor: "#4b5052" }} className='p-2'>
     <Toolbar>
       <MainMenu />
-      <FormControl size='normal' sx={{minWidth:'300px'}} >
-        <InputLabel  sx={{ color: '#ffffff' }} id="select-theme-label">Тема</InputLabel>
+      <FormControl size='normal' sx={{ minWidth: '300px' }} >
+        <InputLabel sx={{ color: '#ffffff' }} id="select-theme-label">Тема</InputLabel>
         <Select
           variant='outlined'
           sx={{ color: '#ffffff' }}
@@ -108,19 +122,19 @@ function Student() {
           {uniqueThemesList}
         </Select>
       </FormControl>
-      <Box sx={{ flexGrow: 2, display:'flex', justifyContent:'end', alignItems:'center', gap:'10px' }} >
-         <PersonIcon
-        size="large"
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        sx={{ mr: 2 }}></PersonIcon> {student ? <Typography variant="h6" component="div">
-           {student.first_name} {student.last_name} 
-        </Typography> : ''}
-        <Button sx={{backgroundColor:'#51585a', border:'1px solid #0000003b'}} size='large' color='inherit' component={Link} to={`/class/${student? student.class_department.id:"1"}` } aria-label="одељење" className='ms-2'><Typography variant="h6">{student? student.class_department.name:''}</Typography></Button>
+      <Box sx={{ flexGrow: 2, display: 'flex', justifyContent: 'end', alignItems: 'center', gap: '10px' }} >
+        <PersonIcon
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}></PersonIcon> {student ? <Typography variant="h6" component="div">
+            {student.first_name} {student.last_name}
+          </Typography> : ''}
+        <Button sx={{ backgroundColor: '#51585a', border: '1px solid #0000003b' }} size='large' color='inherit' component={Link} to={`/class/${student ? student.class_department.id : "1"}`} aria-label="одељење" className='ms-2'><Typography variant="h6">{student ? student.class_department.name : ''}</Typography></Button>
       </Box>
-     
-      
+
+
       <Button color='inherit' component={Link} to={'/student/' + (id - 1)} aria-label="едит"> <ArrowBackIosIcon /></Button>
       <Button color='inherit' component={Link} to={'/student/' + nextStudentId} aria-label="едит"> <ArrowForwardIosIcon /></Button>
     </Toolbar>
@@ -158,42 +172,17 @@ function Student() {
       />) : ''}
 
     </Card>
-    <TableContainer component={Paper} className='p-5'>
+    <Card sx={{ paddingLeft: '60px', marginTop: '60px' }}>
 
+      <ul>
+        {filteredAnswers ? filteredAnswers.map(answer => (<li>
 
-      <Table size="small">
-        <TableHead>
-          <TableRow sx={{ backgroundColor: '#a0a8ab' }}>
-            <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}>Исход</TableCell>
-            <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}>Питање</TableCell>
-            {/* <TableCell sx={{color: '#ffffff;', fontWeight: 'bold'}}>Одговор</TableCell> */}
-            <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}>Време</TableCell>
-            <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filteredAnswers ? filteredAnswers.map(answer => (
-            answer.question.outcomes[0].unit.theme.id === activeTheme || activeTheme === -1 ?
-              <TableRow key={answer.id} sx={{ backgroundColor: getAssesmentColor(answer.assessment_id) }}>
-                <TableCell component="td" scope="row">{answer.question.outcomes[0].description}</TableCell>
-                <TableCell component="td" scope="row">{answer.question.description}</TableCell>
-                {/*               <TableCell component="td" scope="row">{answer.assessment_id}</TableCell> */}
-                <TableCell component="td" scope="row">{answer.date}</TableCell>
-                <TableCell sx={{ minWidth: '100px' }} component="td" scope="row"><IconButton onClick={() => console.log("OK")} aria-label="едит"> <EditNoteIcon /></IconButton><IconButton onClick={() => deleteAnswer(answer.id)} aria-label="delete"> <DeleteIcon /></IconButton></TableCell>
+          {answer.date + " " + getAssesmentDescription(answer.assessment_id) + answer.question.outcomes[0].description}
+        </li>)) : ""}
+      </ul>
 
-              </TableRow> : ''
+    </Card>
 
-          )) : <TableRow>
-            <TableCell component="td" scope="row">#</TableCell>
-            <TableCell component="td" scope="row">#</TableCell>
-            <TableCell component="td" scope="row">#</TableCell>
-            <TableCell component="td" scope="row">#</TableCell>
-          </TableRow>}
-        </TableBody>
-
-      </Table>
-
-    </TableContainer>
 
 
   </Box>)
