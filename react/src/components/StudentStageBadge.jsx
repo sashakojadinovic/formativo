@@ -26,7 +26,7 @@ const StudentStageBadge = (props) => {
         } */
 
     return (
-        <Badge color="secondary"  badgeContent={props.answers_count ? props.answers_count : 0}  >
+        <Badge color="secondary"  badgeContent={props.achievements_count ? props.achievements_count : 0}  >
             <Card sx={{borderLeft:`5px solid ${props.status}`}} >
             <WhiteButton sx={{ textTransform: 'capitalize', lineHeight: '1.25rem' }} onClick={() => { props.onClick(); }} color={props.color} size='normal' fullWidth variant='text' >{props.first_name}<br />{props.last_name}</WhiteButton>
         </Card></Badge>)

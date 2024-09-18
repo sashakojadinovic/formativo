@@ -17,10 +17,10 @@ function Student() {
   const nextStudentId = Number(id) + 1;
 
   const [student, setStudent] = useState(null);
-  const [answers, setAnswers] = useState(null);
+  const [achievements, setAchievements] = useState(null);
   const [activeTheme, setActiveTheme] = useState(-1);
   const [uniqueThemesList, setUniqueThemesList] = useState(null);
-  const [filteredAnswers, setFilteredAnswers] = useState(null);
+  const [filteredachievements, setFilteredachievements] = useState(null);
   const [studentStatistics, setStudentStatistics] = useState({ accomplished: 10, partially: 20, unaccomplished: 30 });
 
   useEffect(() => {
@@ -29,36 +29,37 @@ function Student() {
       .then(res => res.json())
       .then(data => {
         setStudent(data.student);
-        setAnswers(data.answers);
-        setFilteredAnswers(data.answers);
+        setAchievements(data.achievements);
+        setFilteredachievements(data.achievements);
         setActiveTheme(-1);
+        console.log(data);
 
       });
 
   }, [id]);
   useEffect(() => {
-    if (answers) {
-      const uniqueAnswers = answers.reduce((uniqueArray, answer) => {
-        const seenOutcomes = new Set([...uniqueArray.map(obj => obj.question.outcomes[0].unit.theme.id)]);
+    if (achievements) {
+      const uniqueachievements = achievements.reduce((uniqueArray, achievement) => {
+        const seenOutcomes = new Set([...uniqueArray.map(obj => obj.outcome.unit.theme.id)]);
 
-        if (!seenOutcomes.has(answer.question.outcomes[0].unit.theme.id)) {
-          uniqueArray.push(answer);
+        if (!seenOutcomes.has(achievement.outcome.unit.theme.id)) {
+          uniqueArray.push(achievement);
         }
-        seenOutcomes.add(answer.question.outcomes[0].unit.theme.id);
+        seenOutcomes.add(achievement.outcome.unit.theme.id);
 
         return uniqueArray;
       }, []);
 
 
-      setUniqueThemesList(uniqueAnswers.map((answer) => <MenuItem key={answer.question.outcomes[0].unit.theme.id} value={answer.question.outcomes[0].unit.theme.id}>{answer.question.outcomes[0].unit.theme.title}</MenuItem>));
-      console.log(student);
-      const countAssesments = (assessmentId) => filteredAnswers ? filteredAnswers.filter(answer => answer.assessment_id === assessmentId).length : 0;
+      setUniqueThemesList(uniqueachievements.map((achievement) => <MenuItem key={achievement.outcome.unit.theme.id} value={achievement.outcome.unit.theme.id}>{achievement.outcome.unit.theme.title}</MenuItem>));
+
+      const countAssesments = (assessmentId) => filteredachievements ? filteredachievements.filter(achievement => achievement.assessment_id === assessmentId).length : 0;
       setStudentStatistics({ accomplished: countAssesments(3), partially: countAssesments(2), unaccomplished: countAssesments(1) });
     }
 
   }, [student, activeTheme]);
-  const deleteAnswer = (idToDelete) => {
-    fetch(API_BASE_URL + '/api/answer/' + idToDelete, {
+  const deleteachievement = (idToDelete) => {
+    fetch(API_BASE_URL + '/api/achievement/' + idToDelete, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -68,7 +69,7 @@ function Student() {
       .then(res => res.json())
       .then(data => {
         if (data.status === "success") {
-          setAnswers(() => answers.filter(answer => answer.id !== idToDelete));
+          setAchievements(() => achievements.filter(achievement => achievement.id !== idToDelete));
         }
       });
   }
@@ -88,7 +89,7 @@ function Student() {
   }
   const changeTheme = (e) => {
     setActiveTheme(e.target.value);
-    e.target.value !== -1 ? setFilteredAnswers(answers.filter(answer => answer.question.outcomes[0].unit.theme.id === e.target.value)) : setFilteredAnswers(answers);
+    e.target.value !== -1 ? setFilteredachievements(achievements.filter(achievement => achievement.question.outcomes[0].unit.theme.id === e.target.value)) : setFilteredachievements(achievements);
   }
   return (<Box><AppBar position="static" sx={{ backgroundColor: "#4b5052" }} className='p-2'>
     <Toolbar>
@@ -164,22 +165,20 @@ function Student() {
       <Table size="small">
         <TableHead>
           <TableRow sx={{ backgroundColor: '#a0a8ab' }}>
-            <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}>Исход</TableCell>
-            <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}>Питање</TableCell>
+            <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}>Ученик/ученица је у стању да</TableCell>
             {/* <TableCell sx={{color: '#ffffff;', fontWeight: 'bold'}}>Одговор</TableCell> */}
             <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}>Време</TableCell>
             <TableCell sx={{ color: '#ffffff;', fontWeight: 'bold' }}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredAnswers ? filteredAnswers.map(answer => (
-            answer.question.outcomes[0].unit.theme.id === activeTheme || activeTheme === -1 ?
-              <TableRow key={answer.id} sx={{ backgroundColor: getAssesmentColor(answer.assessment_id) }}>
-                <TableCell component="td" scope="row">{answer.question.outcomes[0].description}</TableCell>
-                <TableCell component="td" scope="row">{answer.question.description}</TableCell>
-                {/*               <TableCell component="td" scope="row">{answer.assessment_id}</TableCell> */}
-                <TableCell component="td" scope="row">{answer.date}</TableCell>
-                <TableCell sx={{ minWidth: '100px' }} component="td" scope="row"><IconButton onClick={() => console.log("OK")} aria-label="едит"> <EditNoteIcon /></IconButton><IconButton onClick={() => deleteAnswer(answer.id)} aria-label="delete"> <DeleteIcon /></IconButton></TableCell>
+          {filteredachievements ? filteredachievements.map(achievement => (
+            achievement.outcome.description === activeTheme || activeTheme === -1 ?
+              <TableRow key={achievement.id} sx={{ backgroundColor: getAssesmentColor(achievement.assessment_id) }}>
+                <TableCell component="td" scope="row">{achievement.outcome.description}</TableCell>
+                {/*               <TableCell component="td" scope="row">{achievement.assessment_id}</TableCell> */}
+                <TableCell component="td" scope="row">{achievement.date}</TableCell>
+                <TableCell sx={{ minWidth: '100px' }} component="td" scope="row"><IconButton onClick={() => console.log("OK")} aria-label="едит"> <EditNoteIcon /></IconButton><IconButton onClick={() => deleteachievement(achievement.id)} aria-label="delete"> <DeleteIcon /></IconButton></TableCell>
 
               </TableRow> : ''
 

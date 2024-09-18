@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\AnswerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ClassDepartmentController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UnitController;
@@ -32,6 +33,7 @@ Route::resource('/subject', SubjectController::class);
 Route::resource('/theme', ThemeController::class);
 Route::resource('/unit', UnitController::class);
 Route::resource('/answer',AnswerController::class);
+Route::resource('/achievement',AchievementController::class);
 Route::resource('/outcome',OutcomeController::class);
 Route::resource('/question',QuestionController::class);
 //

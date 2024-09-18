@@ -18,11 +18,11 @@ const QuestionsBook = (props) => {
   const { activeThemeId, activeStudent, setActiveOutcome } = useContext(StageContext);
 
   const getStarColor = (outcome) => {
-    if (activeStudent && activeStudent.answers) {
-      const matchingAnswer = activeStudent.answers.find(answer => answer.question.outcomes[0].pivot.outcome_id === outcome.id);
+    if (activeStudent && activeStudent.achievements) {
+      const matchingachievement = activeStudent.achievements.find(achievement => achievement.outcome_id === outcome.id);
 
-      if (matchingAnswer) {
-        switch (matchingAnswer.assessment_id) {
+      if (matchingachievement) {
+        switch (matchingachievement.assessment_id) {
           case 3:
             //return '#68b586';
             return '#d9ece0';

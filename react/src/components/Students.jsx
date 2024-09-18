@@ -41,7 +41,7 @@ function ClassDep(props) {
                 <>
 {/*                     <StudentStageBadge component={Link} to={'/student/' + item.id} onClick={() => console.log("OK")} first_name={item.first_name} last_name={item.last_name} key={item.id} color='success' />
                     <span>Test</span> */}
-                    < WhiteButton component={Link} to={'/student/' + item.id} key={item.id} color='warning' className='w-full xl:6/12' size='large' variant='outlined' > {item.first_name} {item.last_name} {`(${item.answers_count})`}</WhiteButton >
+                    < WhiteButton component={Link} to={'/student/' + item.id} key={item.id} color='warning' className='w-full xl:6/12' size='large' variant='outlined' > {item.first_name} {item.last_name} {`(${item.achievements_count})`}</WhiteButton >
 
                 </>
                  

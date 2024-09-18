@@ -17,24 +17,20 @@ function MainStage() {
     const [comment, setComment] = useState("");
     const [recommendation, setRecommendation] = useState("");
     const [studentStatistics, setStudentStatistics] = useState({ accomplished: 10, partially: 20, unaccomplished: 30 });
-
     const { activeStudent, activeOutcome } = useContext(StageContext);
     const saveAnswer = () => {
-        //setDialogOpen(false);
-        //console.log({ studentId: activeStudent.id, questionId: choosenQuestion, assessmentId: rate, comment: comment, recommendation: recommendation });
-        const postUrl = API_BASE_URL + "/api/answer";
+        const postUrl = API_BASE_URL + "/api/achievement";
         fetch(postUrl, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: JSON.stringify({ studentId: activeStudent.id, questionId: choosenQuestion, assessmentId: rate, comment: comment, recommendation: recommendation })
+            body: JSON.stringify({ studentId: activeStudent.id, outcomeId: activeOutcome.id, assessmentId: rate, comment: comment, recommendation: recommendation })
         })
             .then(res => res.json())
             .then(data => {
                 setDialogOpen(false);
-                console.log(data);
                 if (data.status === "success") {
 
                     setComment("");
@@ -47,15 +43,15 @@ function MainStage() {
             });
     }
     useEffect(() => {
-        const countAssesments = (assessmentId) => activeStudent ? activeStudent.answers.filter(answer => answer.assessment_id === assessmentId).length : 0;
+        const countAssesments = (assessmentId) => activeStudent ? activeStudent.achievements.filter(achievement => achievement.assessment_id === assessmentId).length : 0;
         setStudentStatistics({ accomplished: countAssesments(3), partially: countAssesments(2), unaccomplished: countAssesments(1) });
     }, [activeStudent]);
     const handleChange = (e) => setChoosenQuestion(e.target.value);
 
     const getAssessmentColor = (outcome) => {
 
-        if (activeStudent && activeStudent.answers) {
-            const matchingAnswer = activeStudent.answers.find(answer => answer.question.outcomes[0].pivot.outcome_id === outcome.id);
+        if (activeStudent && activeStudent.achievements) {
+            const matchingAnswer = activeStudent.achievements.find(achievement => achievement.outcome_id === outcome.id);
 
             if (matchingAnswer) {
                 switch (matchingAnswer.assessment_id) {
