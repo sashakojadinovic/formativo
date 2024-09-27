@@ -13,10 +13,9 @@ function ClassDep(props) {
   if (students) {
     studentsList = students.map(student => {
       let foundMatchingOutcome = false;
-        student.answers.forEach(answer => {
-        //if (answer.question.outcomes[0].id === activeOutcome.id && !foundMatchingOutcome) {
-          if (answer.question.outcomes.some(outcome => outcome.id===activeOutcome.id) && !foundMatchingOutcome) {
-          switch (answer.assessment_id) {
+        student.achievements.forEach(achievement => {
+          if (achievement.outcome_id===activeOutcome.id && !foundMatchingOutcome) {
+          switch (achievement.assessment_id) {
             case 3:
               outcomeStatusColor = '#68b586';
               break;
@@ -42,7 +41,7 @@ function ClassDep(props) {
       }
   
       return (
-        <StudentStageBadge status={outcomeStatusColor} first_name={student.first_name} last_name={student.last_name} answers_count={student.answers_count} key={student.id} onClick={() => setActiveStudent(student)} color='info' />
+        <StudentStageBadge status={outcomeStatusColor} first_name={student.first_name} last_name={student.last_name} achievements_count={student.achievements_count} key={student.id} onClick={() => setActiveStudent(student)} color='info' />
       );
     });
   

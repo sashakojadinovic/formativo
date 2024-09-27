@@ -41,12 +41,13 @@ class StudentController extends Controller
     {
         //$student = Student::find($id)->with('classDepartment')->where('id',$id)->first();
         $student = Student::with('classDepartment')->find($id);
-        $answers = Student::find($id)->answers()->with('question.outcomes.unit.theme')->get();
-        $formattedAnswers = $answers->map(function ($answer) {
+        //$achievements = Student::find($id)->achievements()->with('question.outcomes.unit.theme')->get();
+        $achievements = Student::find($id)->achievements()->with('outcome.unit.theme')->get();
+        $formattedachievements = $achievements->map(function ($answer) {
             $answer->date = $answer->created_at->format('d.m.Y. H:i:s');
         });
-        return response()->json(["student"=>$student, "answers"=>$answers]);
-        //return response()->json(["student" => $student, "answers" => $formattedAnswers]);
+        return response()->json(["student"=>$student, "achievements"=>$achievements]);
+        //return response()->json(["student" => $student, "achievements" => $formattedachievements]);
     }
 
     /**
