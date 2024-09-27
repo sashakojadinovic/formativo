@@ -132,7 +132,7 @@ function Stage() {
 
         </Grid>
         <Grid item xs={6} xl={6} sx={{ backgroundColor: '#eceff1' }}>
-          <StageContext.Provider value={{ activeStudent, activeOutcome }}>
+          <StageContext.Provider value={{ activeStudent, activeOutcome, activeClassDep, setActiveClassDep }}>
             <MainStage />
           </StageContext.Provider>
 

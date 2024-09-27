@@ -17,8 +17,8 @@ function MainStage() {
     const [comment, setComment] = useState("");
     const [recommendation, setRecommendation] = useState("");
     const [studentStatistics, setStudentStatistics] = useState({ accomplished: 10, partially: 20, unaccomplished: 30 });
-    const { activeStudent, activeOutcome } = useContext(StageContext);
-    const saveAnswer = () => {
+    const { activeStudent, activeOutcome, activeClassDep, setActiveClassDep } = useContext(StageContext);
+    const saveAchievement = () => {
         const postUrl = API_BASE_URL + "/api/achievement";
         fetch(postUrl, {
             headers: {
@@ -36,6 +36,11 @@ function MainStage() {
                     setComment("");
                     setRecommendation("");
                     setSnackOpened('success');
+                    const activeClass = activeClassDep;
+                    setActiveClassDep({});
+                    setActiveClassDep(activeClassDep);
+                    //activeStudent.achievements.push({outcome_id:activeOutcome.id, assessment_id: rate });
+
                 }
                 else {
                     setSnackOpened('error');
@@ -88,7 +93,7 @@ function MainStage() {
                 </DialogContent>
                 <DialogActions>
                     <Button variant='contained' size='small' color='warning' onClick={() => setDialogOpen(false)}><CloudOffIcon className='mr-2' fontSize='small' /> Поништи</Button>
-                    <Button variant='contained' size='small' color='success' onClick={() => saveAnswer()}><CloudUploadIcon className='mr-2' fontSize='small' /> Потврди</Button>
+                    <Button variant='contained' size='small' color='success' onClick={() => saveAchievement()}><CloudUploadIcon className='mr-2' fontSize='small' /> Потврди</Button>
                 </DialogActions>
             </Dialog>
 
