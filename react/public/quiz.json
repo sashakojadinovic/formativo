@@ -1,0 +1,62 @@
+[
+    {
+        "id" : 0,
+        "type" : "multiple_question",
+        
+        "text" : "Obeleži formule nemetala",
+        "answers": [
+            "Fe", "H", "Na", "Li"
+        ],
+        "correct" : [
+            1
+        ]
+    },
+    {
+        "id" : 1,
+        "type" : "multiple_question",
+        
+        "text" : "Obeleži nazive legura",
+        "answers": [
+            "Bronza", "Bakar", "Duraluminijum", "Gvožđe"
+        ],
+        "correct" : [
+            0,2
+        ]
+    },
+    {
+        "id" : 1,
+        "type" : "multiple_question",
+        
+        "text" : "Obeleži nazive legura",
+        "answers": [
+            "Bronza", "Bakar", "Duraluminijum", "Gvožđe"
+        ],
+        "correct" : [
+            0,2
+        ]
+    },
+    {
+        "id" : 1,
+        "type" : "multiple_question",
+        
+        "text" : "Obeleži nazive legura",
+        "answers": [
+            "Bronza", "Bakar", "Duraluminijum", "Gvožđe"
+        ],
+        "correct" : [
+            0,2
+        ]
+    },
+    {
+        "id" : 1,
+        "type" : "multiple_question",
+        
+        "text" : "Obeleži nazive legura",
+        "answers": [
+            "Bronza", "Bakar", "Duraluminijum", "Gvožđe"
+        ],
+        "correct" : [
+            0,2
+        ]
+    }
+]
