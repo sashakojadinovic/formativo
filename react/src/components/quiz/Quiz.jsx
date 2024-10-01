@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MultipleChoice from "./MultipleChoice";
-import { AppBar, Toolbar, Box } from '@mui/material';
+import { AppBar, Toolbar, Container, Box } from '@mui/material';
 function Quiz() {
     const apiSource = "/quiz.json";
     useEffect(() => {
@@ -20,10 +20,13 @@ function Quiz() {
     const [questions, setQuestions] = useState([]);
     return <Box>
         <AppBar position="fixed" sx={{ backgroundColor: '#4b5052' }} className='p-2' >
-            <Toolbar sx={{ gap: 1 }}> Formativo Test
+            <Toolbar  sx={{ gap: 1 }}> Formativo Test
             </Toolbar>
         </AppBar>
-        {questions.map((question,index)=><MultipleChoice  question={question} key={index}>{question.text}</MultipleChoice>)}
+        <Container className="mt-20 pt-10">
+            {questions.map((question, index) => <MultipleChoice question={question} key={index}>{question.text}</MultipleChoice>)}
+        </Container>
+
     </Box>
 }
 
